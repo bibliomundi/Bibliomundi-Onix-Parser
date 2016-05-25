@@ -5501,7 +5501,7 @@ EOF;
 
 EOF;
 
-        $aux = json_decode(file_get_contents('cdd.json'), TRUE);
+        $aux = json_decode($aux, TRUE);
 
         foreach ($aux as $cdd)
            self::$cdd[$cdd['code']] = $cdd['description_ptbr'];
