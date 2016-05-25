@@ -30,6 +30,8 @@ class OnixParser
 
 		$this->onix->setHeader($header);
 
+		\BBM\model\ProductEnum::init();
+
 		foreach ($xml->Product as $xmlProduct)
 		{
 			$product = new \BBM\model\Product();
