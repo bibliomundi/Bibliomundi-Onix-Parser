@@ -76,9 +76,9 @@ class CDD extends \BBM\model\Category
 {
     public function __construct($code)
     {
-        if(array_key_exists($code, \BBM\model\ProductEnum::$bisac))
+        if(array_key_exists($code, \BBM\model\ProductEnum::$cdd))
         {
-            $this->setName(\BBM\model\ProductEnum::$bisac[$code]);
+            $this->setName(\BBM\model\ProductEnum::$cdd[$code]);
             $this->setCode($code);
         }
         else
