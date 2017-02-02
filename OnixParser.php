@@ -17,18 +17,18 @@ class OnixParser
 		return isset($this->onix) ? $this->onix : null;
 	}
 
-	public function __construct($xml)
+	public function __construct($xml, $dir = false)
 	{
-		$xml = new \SimpleXMLElement($xml);
-		
+		if($dir)
+			$xml = simplexml_load_file($xml);
+		else
+ 			$xml = simplexml_load_string($xml);
+
 		$this->onix = new \BBM\model\Onix();
 
-		$header = new \BBM\model\Header();
+		$this->onix->setVersion($xml['release']);
 
-		$header->setSenderName(strval($xml->Header->Sender->SenderName));
-		$header->setContactName(strval($xml->Header->Sender->SenderName));
-
-		$this->onix->setHeader($header);
+		$this->onix->setHeader($this->getHeader($xml->Header));
 
 		\BBM\model\ProductEnum::init();
 
@@ -36,78 +36,34 @@ class OnixParser
 		{
 			$product = new \BBM\model\Product();
 
-			//Existem algumas situações que podem fazer com que o livro não esteja disponível para venda.
-			//Neste caso aqui estamos verificando se o produto está ativo e seu status junto ao fornecedor
-			$product->setAvailability(strval($xmlProduct->PublishingDetail->PublishingStatus) == '04' && strval($xmlProduct->ProductSupply->SupplyDetail->ProductAvailability == '20') ? true : false);
+			$product->setAvailability($this->getProductAvailability($xmlProduct));
 
-			$product->setOperationType(strval($xmlProduct->NotificationType));//Para saber se é inserção(03), deleção(05) ou alteração(04).
+			$product->setOperationType($this->getProductOperationType($xmlProduct));
 
-			foreach ($xmlProduct->ProductIdentifier as $productIdentifier)
-			{
-				switch (strval($productIdentifier->ProductIDType))
-				{
-					case '01'://Significa que o idvalue deste bloco é do nosso ebook. obs - Id que será utilizado para requisições na api
-						//Criar estrutura na tabela para isso
-						$product->setID(strval($productIdentifier->IDValue));
-						break;
-					
-					case '15'://Significa que o idValue deste bloco trata-se do isbn do ebook.
-						$product->setISBN(strval($productIdentifier->IDValue));
-						break;
-				}
-			}
+			$product->setId($this->getProductId($xmlProduct));
 
-			$product->setFormatType(strval($xmlProduct->DescriptiveDetail->ProductFormDetail));//epub, pdf etc
+			$product->setISBN($this->getProductISBN($xmlProduct));
 
-			//Nó opcional
-			if(isset($xmlProduct->DescriptiveDetail->EpubTechnicalProtection))
-				$product->setProtectionType(strval($xmlProduct->DescriptiveDetail->EpubTechnicalProtection));//adobe, marca d'agua etc
+			$product->setFormatType($this->getProductFormatType($xmlProduct));
 
-			//Bloco opcional. Apenas quando a obra eh parte de uma coleção
-			if(isset($xmlProduct->DescriptiveDetail->Collection))
-			{
-				$product->setCollectionTitle(strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText));
-			}
+			$product->setProtectionType($this->getProductProtectionType($xmlProduct));
 
-			$product->setTitle(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText));
+			$product->setCollectionTitle($this->getProductCollectionTitle($xmlProduct));
 			
-			$product->setSubTitle(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->Subtitle));
+			$product->setTitle($this->getProductTitle($xmlProduct));
+			
+			$product->setSubTitle($this->getProductSubTitle($xmlProduct));
 
-			//Podemos ter vários autores e ilustradores para o mesmo ebook. Lembrando que neste caso trabalharemos apenas com esses dois 		
-			foreach ($xmlProduct->DescriptiveDetail->Contributor as $xmlContributor)
-			{
-				$contributor = null;
-
-				switch (strval($xmlContributor->ContributorRole))
-				{
-					case 'A01'://Significa que é autor do livro
-						$contributor = new \BBM\model\Contributor\Autor();
-						break;
-					case 'A12'://Significa que é ilustrador do livro
-						$contributor = new \BBM\model\Contributor\Ilustrador();
-						break;
-				}
-
-				if(isset($contributor))
-				{
-					$contributor->setId(strval($xmlContributor->NameIdentifier->IDValue));
-					$contributor->setPreferenceOrderExibition(strval($xmlContributor->SequenceNumber));
-					$contributor->setName(strval($xmlContributor->NamesBeforeKey));
-					$contributor->setTypeName(strval($xmlContributor->NameIdentifier->IDTypeName));
-					$contributor->setLastName(strval($xmlContributor->KeyNames));
-					$contributor->setBiography(strval($xmlContributor->BiographicalNote->p));
-					if(isset($xmlContributor->Website) && strval($xmlContributor->Website->WebsiteRole == '06')) //Se o site for do proprio contribuidor
-						$contributor->setWebsite(strval($xmlContributor->Website->WebsiteLink));
-
-					$product->setContributor($contributor);
-				}
-			}
+			$product->setContributors($this->getProductContributors($xmlProduct));
 
 			$product->setEditionNumber(strval($xmlProduct->DescriptiveDetail->EditionNumber));
 
-			if (strval($xmlProduct->DescriptiveDetail->Language->LanguageRole == '01'))//Idioma do texto do produto. Por hora somente isso nos importa
-				$product->setIdiom(strval($xmlProduct->DescriptiveDetail->Language->LanguageCode));
+			$product->setIdiom($this->getProductIdiom($xmlProduct));
 
+			$product->setPagesNumber($this->getProductPageNumbers($xmlProduct));
+
+			//************Parei aqui***************//
+			$product->setSize($this->getProductSize($xmlProduct));
 
 			//Nó não obrigatório, apesar de ser usado em praticamente 100% dos casos. 
 			foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
@@ -204,6 +160,314 @@ class OnixParser
 			$product->setPrice(strval($xmlProduct->ProductSupply->SupplyDetail->Price->PriceAmount));
 			
 			$this->onix->setProduct($product);
+		}
+	}
+
+	private function getHeader($xmlHeader)
+	{
+		$header = new \BBM\model\Header();
+
+		switch ($this->onix->getVersion()) 
+		{
+			case '3.0':
+				$header->setSender(strval($xmlHeader->Sender->SenderName));
+				$header->setContact(strval($xmlHeader->Sender->ContactName));
+				$header->setEmail(strval($xmlHeader->Sender->EmailAddress));
+				break;
+			
+			case '2.0':
+			case '2.1':
+				$header->setSender(strval($xmlHeader->FromCompany));
+				$header->setContact(strval($xmlHeader->FromPerson));
+				$header->setEmail(strval($xmlHeader->FromEmail));
+				break;
+		}
+
+		return $header;
+	}
+
+	private function getProductAvailability($xmlProduct)
+	{
+		//Existem algumas situações que podem fazer com que o livro não esteja disponível para venda.
+		//Neste caso aqui estamos verificando se o produto está ativo e seu status junto ao fornecedor
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$availability = strval($xmlProduct->PublishingDetail->PublishingStatus) == '04' && strval($xmlProduct->ProductSupply->SupplyDetail->ProductAvailability == '20') ? true : false;
+				break;
+			
+			case '2.0':
+			case '2.1':
+				$availability = strval($xmlProduct->PublishingStatus) == '04' && strval($xmlProduct->SupplyDetail->ProductAvailability == '20') ? true : false;
+				break;
+		}
+
+		return $availability;
+	}
+
+	private function getProductOperationType($xmlProduct)
+	{
+		//Para saber se é inserção(03), deleção(05) ou alteração(04).
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+			case '2.0':
+			case '2.1':
+				$operationType = strval($xmlProduct->NotificationType);
+				break;
+		}
+
+		return $operationType;
+	}
+
+	private function getProductId($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+			case '2.0':
+			case '2.1':
+				foreach ($xmlProduct->ProductIdentifier as $productIdentifier)
+				{
+					if(strval($productIdentifier->ProductIDType == '01'))
+						$id = strval($productIdentifier->IDValue);
+				}
+				break;
+		}
+
+		return $id;
+	}
+
+	private function getProductISBN($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+			case '2.0':
+			case '2.1':
+				foreach ($xmlProduct->ProductIdentifier as $productIdentifier)
+				{
+					if(strval($productIdentifier->ProductIDType == '15'))
+						$isbn = strval($productIdentifier->IDValue);
+				}
+				break;
+		}
+
+		return $isbn;
+	}
+
+	private function getProductFormatType($xmlProduct)
+	{
+		//epub, pdf etc
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$formatType = strval($xmlProduct->DescriptiveDetail->ProductFormDetail);
+				break;
+			case '2.0':
+			case '2.1':
+				$formatType = strval($xmlProduct->EpubType);
+				break;
+		}
+
+		return $formatType;
+	}
+
+	private function getProductProtectionType($xmlProduct)
+	{
+		//adobe, marca d'agua etc
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$protectionType = strval($xmlProduct->DescriptiveDetail->EpubTechnicalProtection);
+				break;
+			case '2.0':
+			case '2.1':
+				$protectionType = '';
+				break;
+		}
+		
+		return $protectionType;
+	}
+
+	private function getProductCollectionTitle($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
+				break;
+			case '2.0':
+			case '2.1':
+				$collectionTitle = strval($xmlProduct->Series->TitleOfSeries);
+				break;
+		}
+
+		return $collectionTitle;
+	}
+
+	private function getProductTitle($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText);
+				break;
+			case '2.0':
+			case '2.1':
+				$title = strval($xmlProduct->Title->TitleText);
+				break;
+		}
+
+		return $title;
+	}
+
+	private function getProductSubTitle($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$subtitle = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->Subtitle);
+				break;
+			case '2.0':
+			case '2.1':
+				$subtitle = '';
+				break;
+		}
+
+		return $subtitle;
+	}
+
+	private function getProductContributors($xmlProduct)
+	{
+		$contributors = array();
+
+		//Podemos ter vários autores e ilustradores para o mesmo ebook. Lembrando que neste caso trabalharemos apenas com esses dois 		
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				foreach ($xmlProduct->DescriptiveDetail->Contributor as $xmlContributor)
+				{
+					$contributor = null;
+
+					switch (strval($xmlContributor->ContributorRole))
+					{
+						case 'A01'://Significa que é autor do livro
+							$contributor = new \BBM\model\Contributor\Autor();
+							break;
+						case 'A12'://Significa que é ilustrador do livro
+							$contributor = new \BBM\model\Contributor\Ilustrador();
+							break;
+					}
+
+					if(isset($contributor))
+					{
+						$contributor->setId(strval($xmlContributor->NameIdentifier->IDValue));
+						$contributor->setPreferenceOrderExibition(strval($xmlContributor->SequenceNumber));
+						$contributor->setName(strval($xmlContributor->NamesBeforeKey));
+						$contributor->setTypeName(strval($xmlContributor->NameIdentifier->IDTypeName));
+						$contributor->setLastName(strval($xmlContributor->KeyNames));
+						$contributor->setBiography(strval($xmlContributor->BiographicalNote->p));
+						if(isset($xmlContributor->Website) && strval($xmlContributor->Website->WebsiteRole == '06')) //Se o site for do proprio contribuidor
+							$contributor->setWebsite(strval($xmlContributor->Website->WebsiteLink));
+
+						$contributors[] = $contributor;
+					}
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				foreach ($xmlProduct->Contributor as $xmlContributor)
+				{
+					$contributor = null;
+
+					switch (strval($xmlContributor->ContributorRole))
+					{
+						case 'A01'://Significa que é autor do livro
+							$contributor = new \BBM\model\Contributor\Autor();
+							break;
+						case 'A12'://Significa que é ilustrador do livro
+							$contributor = new \BBM\model\Contributor\Ilustrador();
+							break;
+					}
+
+					if(isset($contributor))
+					{
+						$contributor->setId('');
+						$contributor->setPreferenceOrderExibition(strval($xmlContributor->SequenceNumber));
+						$contributor->setName(strval($xmlContributor->NamesBeforeKey));
+						$contributor->setTypeName('');
+						$contributor->setLastName(strval($xmlContributor->KeyNames));
+						$contributor->setBiography(strval($xmlContributor->BiographicalNote));
+						$contributor->setWebsite('');
+
+						$contributors[] = $contributor;
+					}
+				}
+				break;
+		}
+
+		return $contributors;
+	}
+
+	public function getProductIdiom($xmlProduct)
+	{
+		//Idioma do texto do produto. Por hora somente isso nos importa
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				if (strval($xmlProduct->DescriptiveDetail->Language->LanguageRole == '01'))
+					$idiom = strval($xmlProduct->DescriptiveDetail->Language->LanguageCode);
+				break;
+			case '2.0':
+			case '2.1':
+				if (strval($xmlProduct->Language->LanguageRole == '01'))
+					$idiom = strval($xmlProduct->Language->LanguageCode);
+				break;
+		}
+
+		return $idiom;
+	}
+
+	public function getProductpageNumbers($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
+				{
+					if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')
+						$pageNumbers = strval($extent->ExtentValue);
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				$pageNumbers = strval($xmlProduct->NumberOfPages);
+				break;
+		}
+
+		return $pageNumbers;
+	}
+
+	public function getProductSizeUnit($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				if (strval($xmlProduct->DescriptiveDetail->Language->LanguageRole == '01'))
+					$idiom = strval($xmlProduct->DescriptiveDetail->Language->LanguageCode);
+				break;
+			case '2.0':
+			case '2.1':
+				if (strval($xmlProduct->Language->LanguageRole == '01'))
+					$idiom = strval($xmlProduct->Language->LanguageCode);
+				break;
 		}
 	}
 }

@@ -16,7 +16,7 @@ class Product
 	private $contributors = array();
 	private $editionNumber;
 	private $idiom;
-	private $pagesNumber;
+	private $pageNumbers;
 	private $size;
 	private $sizeUnit;
 	private $categories = array();
@@ -256,9 +256,9 @@ class Product
      *
      * @return self
      */
-    public function setContributor(Contributor $contributor)
+    public function setContributors(Array $contributors)
     {
-        $this->contributors[] = $contributor;
+        $this->contributors = $contributors;
     }
 
     /**
@@ -322,9 +322,9 @@ class Product
      *
      * @return self
      */
-    public function setPagesNumber($pagesNumber)
+    public function setPageNumbers($pageNumbers)
     {
-        $this->pagesNumber = (int) $pagesNumber;
+        $this->pageNumbers = (int) $pageNumbers;
     }
 
     /**

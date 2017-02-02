@@ -5,6 +5,7 @@ namespace BBM\model;
 abstract class Contributor
 {
     private $id;
+    private $role;
 	private $preferenceOrderExibition;
 	private $typeName;
 	private $name;
@@ -21,6 +22,11 @@ abstract class Contributor
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**
@@ -196,10 +202,18 @@ namespace BBM\model\Contributor;
 
 class Autor extends \BBM\model\Contributor
 {
+    public function __construct()
+    {
+        $this->role = 'A01';
+    }
 }
 
 namespace BBM\model\Contributor;
 
 class Ilustrador extends \BBM\model\Contributor
 {
+    public function __construct()
+    {
+        $this->role = 'A12';
+    }
 }

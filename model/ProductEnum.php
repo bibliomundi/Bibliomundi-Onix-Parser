@@ -5508,12 +5508,12 @@ EOF;
 
         self::$operationType           = array('03' => 'insert', '04' => 'update', '05' => 'delete');
         self::$contributorsType        = array('Autor', 'Ilustrador');
-        self::$productFormDetail       = array('E101' => 'epub');
+        self::$productFormDetail       = array('E101' => 'epub', '029' => 'epub');
         self::$epubTechnicalProtection = array('00' => 'Sem proteção', '02' => 'Marca d\'água', '03' => 'Adobe DRM');
         self::$sizeUnit                = array('17' => 'Bytes', '18' => 'Kbytes', '19' => 'MBytes');
         self::$ageRatingClassification = array('01' => 'Exatamente', '03' => 'A partir de', '04' => 'Até');
         self::$formatFile              = array('D502' => 'jpeg', 'D503' => 'png');
-        self::$languageRoleDescription = array('por' => 'Português');
+        self::$languageRoleDescription = array('por' => 'Português', 'eng' => 'Inglês');
     }
     
 }

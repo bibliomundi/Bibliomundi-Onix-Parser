@@ -11,10 +11,22 @@ class Onix
 	private $products = array();
 
 	/**
+	 * [$productAvailable description]
+	 * @var array<Product>
+	 */
+	private $productsAvailable = array();
+
+	/**
 	 * [$header description]
 	 * @var [Header]
 	 */
 	private $header;
+
+	/**
+	 * [$header description]
+	 * @var [Header]
+	 */
+	private $version;
 
 	/**
 	 * 
@@ -22,6 +34,10 @@ class Onix
 	public function setProduct(Product $product)
 	{
 		$this->products[] = $product;
+		
+		if($product->isAvailable())
+			$this->productsAvailable[] = $product;
+			
 	}
 
 	public function getProducts()
@@ -31,18 +47,7 @@ class Onix
 
 	public function getProductsAvailable()
 	{
-		if(count($this->products))
-		{
-			$productsAvailable = array();
-
-			foreach ($this->products as $product)
-			{
-				if($product->isAvailable())
-					$productsAvailable[] = $product;
-			}
-
-			return $productsAvailable;
-		}
+		return $this->productsAvailable;
 	}
 
 	public function setHeader(Header $header)
@@ -53,5 +58,15 @@ class Onix
 	public function getHeader()
 	{
 		return $this->header;
+	}
+
+	public function setVersion($version)
+	{
+		$this->version = $version;
+	}
+
+	public function getVersion()
+	{
+		return $this->version;
 	}
 }
