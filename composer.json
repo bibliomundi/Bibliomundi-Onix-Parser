@@ -1,0 +1,7 @@
+{
+    "name": "Bibliomundi-Onix-Parser",
+    "description": "Parser xml onix into php Object",
+    "require": {
+        "php": "^5.3.3"
+    }
+}
