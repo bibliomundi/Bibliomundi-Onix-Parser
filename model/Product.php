@@ -20,14 +20,13 @@ class Product
 	private $size;
 	private $sizeUnit;
 	private $categories = array();
-	private $tags = array();
-	private $ageRating;
+	private $tags;
+    private $ageRatingPrecision;
+	private $ageRatingValue;
 	private $synopsis;
 	private $formatFile;
 	private $urlFile;
-	private $publisherName;
-	private $publisherWebsite;
-	private $price;
+	private $prices = array();
 
 	/**
 	 * @param [type]
@@ -50,9 +49,9 @@ class Product
 	/**
 	 * @param [type]
 	 */
-	public function setOperationType($type)
+	public function setOperationType($operationType)
 	{
-		$this->operationType = \BBM\model\ProductEnum::$operationType[$type];
+		$this->operationType = $operationType;
 	}
 
     /**
@@ -106,7 +105,7 @@ class Product
      */
     public function setId($id)
     {
-        $this->id = (int) $id;
+        $this->id = $id;
     }
 
     /**
@@ -128,7 +127,7 @@ class Product
      */
     public function setFormatType($formatType)
     {
-        $this->formatType = \BBM\model\ProductEnum::$productFormDetail[$formatType];
+        $this->formatType = $formatType;
     }
 
     /**
@@ -150,7 +149,7 @@ class Product
      */
     public function setProtectionType($protectionType)
     {
-        $this->protectionType = \BBM\model\ProductEnum::$epubTechnicalProtection[$protectionType];
+        $this->protectionType = $protectionType;
     }
 
     /**
@@ -280,7 +279,7 @@ class Product
      */
     public function setEditionNumber($editionNumber)
     {
-        $this->editionNumber = (int) $editionNumber;
+        $this->editionNumber = $editionNumber;
     }
 
     /**
@@ -302,7 +301,7 @@ class Product
      */
     public function setIdiom($idiomCode)
     {
-        $this->idiom = ProductEnum::$languageRoleDescription[$idiomCode];
+        $this->idiom = $idiomCode;
     }
 
     /**
@@ -324,7 +323,7 @@ class Product
      */
     public function setPageNumbers($pageNumbers)
     {
-        $this->pageNumbers = (int) $pageNumbers;
+        $this->pageNumbers = $pageNumbers;
     }
 
     /**
@@ -346,7 +345,7 @@ class Product
      */
     public function setSize($size)
     {
-        $this->size = (int) $size;
+        $this->size = $size;
     }
 
     /**
@@ -368,7 +367,7 @@ class Product
      */
     public function setSizeUnit($sizeUnit)
     {
-        $this->sizeUnit = \BBM\model\ProductEnum::$sizeUnit[$sizeUnit];
+        $this->sizeUnit = $sizeUnit;
     }
 
     /**
@@ -389,9 +388,9 @@ class Product
      *
      * @return self
      */
-    public function setCategory($category)
+    public function setCategories(Array $categories)
     {
-        $this->categories[] = $category;
+        $this->categories = $categories;
     }
 
     /**
@@ -421,9 +420,9 @@ class Product
      *
      * @return mixed
      */
-    public function getAgeRating()
+    public function getAgeRatingPrecision()
     {
-        return $this->ageRating;
+        return $this->ageRatingPrecision;
     }
 
     /**
@@ -433,10 +432,31 @@ class Product
      *
      * @return self
      */
-    public function setAgeRating($precision, $value)
+    public function setAgeRatingPrecision($ageRatingPrecision)
     {
-        $aux = $value > 1 ? 'anos' : 'ano';
-        $this->ageRating = \BBM\model\ProductEnum::$ageRatingClassification[$precision] . ' ' . $value . ' ' . $aux;
+        $this->ageRatingPrecision = $ageRatingPrecision;
+    }
+
+    /**
+     * Gets the value of ageRating.
+     *
+     * @return mixed
+     */
+    public function getAgeRatingValue()
+    {
+        return $this->ageRatingValue;
+    }
+
+    /**
+     * Sets the value of ageRating.
+     *
+     * @param mixed $ageRating the age rating
+     *
+     * @return self
+     */
+    public function setAgeRatingValue($ageRatingValue)
+    {
+        $this->ageRatingValue = $ageRatingValue;
     }
 
     /**
@@ -480,7 +500,7 @@ class Product
      */
     public function setFormatFile($formatFile)
     {
-        $this->formatFile = \BBM\model\ProductEnum::$formatFile[$formatFile];
+        $this->formatFile = $formatFile;
     }
 
     /**
@@ -502,51 +522,7 @@ class Product
      */
     public function setUrlFile($urlFile)
     {
-        $this->urlFile = 'http://' . $urlFile;
-    }
-
-    /**
-     * Gets the value of publisherName.
-     *
-     * @return mixed
-     */
-    public function getPublisherName()
-    {
-        return $this->publisherName;
-    }
-
-    /**
-     * Sets the value of publisherName.
-     *
-     * @param mixed $publisherName the publisher name
-     *
-     * @return self
-     */
-    public function setPublisherName($publisherName)
-    {
-        $this->publisherName = $publisherName;
-    }
-
-    /**
-     * Gets the value of publisherWebsite.
-     *
-     * @return mixed
-     */
-    public function getPublisherWebsite()
-    {
-        return $this->publisherWebsite;
-    }
-
-    /**
-     * Sets the value of publisherWebsite.
-     *
-     * @param mixed $publisherWebsite the publisher website
-     *
-     * @return self
-     */
-    public function setPublisherWebsite($publisherWebsite)
-    {
-        $this->publisherWebsite = $publisherWebsite;
+        $this->urlFile = $urlFile;
     }
 
     /**
@@ -554,9 +530,9 @@ class Product
      *
      * @return mixed
      */
-    public function getPrice()
+    public function getPrices()
     {
-        return $this->price;
+        return $this->prices;
     }
 
     /**
@@ -566,8 +542,8 @@ class Product
      *
      * @return self
      */
-    public function setPrice($price)
+    public function setPrices(Array $prices)
     {
-        $this->price = $price;
+        $this->prices = $prices;
     }
 }

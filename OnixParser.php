@@ -8,7 +8,7 @@ require 'autoload.php';
  * Convert XML Onix(Essential) to object
  */
 
-class OnixParser 
+class OnixParser
 {
 	private $onix;
 
@@ -29,8 +29,6 @@ class OnixParser
 		$this->onix->setVersion($xml['release']);
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
-
-		\BBM\model\ProductEnum::init();
 
 		foreach ($xml->Product as $xmlProduct)
 		{
@@ -60,104 +58,27 @@ class OnixParser
 
 			$product->setIdiom($this->getProductIdiom($xmlProduct));
 
-			$product->setPagesNumber($this->getProductPageNumbers($xmlProduct));
+			$product->setPageNumbers($this->getProductPageNumbers($xmlProduct));
 
-			//************Parei aqui***************//
 			$product->setSize($this->getProductSize($xmlProduct));
 
-			//Nó não obrigatório, apesar de ser usado em praticamente 100% dos casos. 
-			foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
-			{
-				if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')//número de páginas
-					$product->setPagesNumber(strval($extent->ExtentValue));
+			$product->setSizeUnit($this->getProductSizeUnit($xmlProduct));
 
-				if(strval($extent->ExtentType) == '22')//Tamanho do arquivo
-				{
-					$product->setSize(strval($extent->ExtentValue));
-					$product->setSizeUnit(strval($extent->ExtentUnit));
-				}
-			}
+			$product->setCategories($this->getProductCategories($xmlProduct));
 
-			//Categorias. Apesar de serem chamadas de subject. Nó nao obrigatorio e repetitivo
-			if(isset($xmlProduct->DescriptiveDetail->Subject))
-			{
-				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
-				{
-					
-					$category = null;
+			$product->setTags($this->getProductTags($xmlProduct));
 
-					switch (strval($subject->SubjectSchemeIdentifier))
-					{
-						case '10'://Bisac
-							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
-							try
-							{
-								$category = new \BBM\model\Category\Bisac(strval($subject->SubjectCode));
-							}
-							catch(\Exception $e)
-							{
-								unset($category);
-								continue 2;//Passa para a próxima categoria
-							}
+			$product->setAgeRatingPrecision($this->getProductAgeRationPrecision($xmlProduct));
 
-						break;
+			$product->setAgeRatingValue($this->getProductAgeRationValue($xmlProduct));
 
-						case '01'://CDD
-							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
-							try
-							{
-								$category = new \BBM\model\Category\CDD(strval($subject->SubjectCode));
-							}
-							catch(\Exception $e)
-							{
-								unset($category);
-								continue 2;//Passa para a próxima categoria
-							}
+			$product->setSynopsis($this->getProductSynopsis($xmlProduct));
 
-						break;
+			$product->setFormatFile($this->getProductFormatFile($xmlProduct));
 
-						case '20'://Tags
+			$product->setUrlFile($this->getProductUrlFile($xmlProduct));
 
-							$product->setTags(explode(';', trim(strval($subject->SubjectCode))));
-
-						break;
-					}
-
-				if(isset($category))
-					$product->setCategory($category);
-				}
-			}
-
-
-
-			//01 Exatamente, 03 "A partir de", 04 Até
-			$product->setAgeRating(strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangePrecision), strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangeValue));
-
-
-			//Nó não obrigatório.
-			if(isset($xmlProduct->CollateralDetail))
-			{
-				//Nó não obrigatório e repetitivo
-				if (strval($xmlProduct->CollateralDetail->TextContent->TextType) == '03')
-					$product->setSynopsis(strval($xmlProduct->CollateralDetail->TextContent->Text->p));
-
-				//Nó não obrigatório e repetitivo. Se for Capa e se tratar de arquivo
-				if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
-					strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
-				{
-					$product->setFormatFile(strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->FeatureValue));
-					$product->setUrlFile(strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink));
-				}
-			}
-
-			if(isset($xmlProduct->PublishingDetail))
-			{
-				$product->setPublisherName(strval($xmlProduct->PublishingDetail->Imprint->ImprintName));
-				$product->setPublisherWebsite(strval($xmlProduct->PublishingDetail->Publisher->PublisherName));
-			}
-
-			//Existem muitas coisas a se considerar aqui, mas por hora vou inserir o valor 
-			$product->setPrice(strval($xmlProduct->ProductSupply->SupplyDetail->Price->PriceAmount));
+			$product->setPrices($this->getProductPrices($xmlProduct));
 			
 			$this->onix->setProduct($product);
 		}
@@ -296,10 +217,12 @@ class OnixParser
 
 	private function getProductCollectionTitle($xmlProduct)
 	{
+		$collectionTitle = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
+					$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
 				break;
 			case '2.0':
 			case '2.1':
@@ -415,7 +338,7 @@ class OnixParser
 		return $contributors;
 	}
 
-	public function getProductIdiom($xmlProduct)
+	private function getProductIdiom($xmlProduct)
 	{
 		//Idioma do texto do produto. Por hora somente isso nos importa
 
@@ -435,7 +358,7 @@ class OnixParser
 		return $idiom;
 	}
 
-	public function getProductpageNumbers($xmlProduct)
+	private function getProductpageNumbers($xmlProduct)
 	{
 		switch ($this->onix->getVersion())
 		{
@@ -455,19 +378,345 @@ class OnixParser
 		return $pageNumbers;
 	}
 
-	public function getProductSizeUnit($xmlProduct)
+	private function getProductSize($xmlProduct)
+	{
+		$size = '';
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
+				{
+					if(strval($extent->ExtentType) == '22')
+						$size = strval($extent->ExtentValue);
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				foreach ($xmlProduct->Extent as $extent) 
+				{
+					if(strval($extent->ExtentType) == '22')
+						$size = strval($extent->ExtentValue);
+				}
+				break;
+		}
+
+		return $size;
+	}
+
+	private function getProductSizeUnit($xmlProduct)
+	{
+		$sizeUnit = '';
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
+				{
+					if(strval($extent->ExtentType) == '22')
+						$sizeUnit = strval($extent->ExtentUnit);
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				foreach ($xmlProduct->Extent as $extent) 
+				{
+					if(strval($extent->ExtentType) == '22')
+						$sizeUnit = strval($extent->ExtentUnit);
+				}
+				break;
+		}
+
+		return $sizeUnit;
+	}
+
+	private function getProductCategories($xmlProduct)
 	{
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if (strval($xmlProduct->DescriptiveDetail->Language->LanguageRole == '01'))
-					$idiom = strval($xmlProduct->DescriptiveDetail->Language->LanguageCode);
+				$categories = array();
+
+				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
+				{
+					$category = null;
+
+					switch (strval($subject->SubjectSchemeIdentifier))
+					{
+						case '10'://Bisac
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+
+						case '01'://CDD
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+					}
+
+					if(isset($category))
+						$categories[] = $category;
+				}
 				break;
 			case '2.0':
 			case '2.1':
-				if (strval($xmlProduct->Language->LanguageRole == '01'))
-					$idiom = strval($xmlProduct->Language->LanguageCode);
+				$categories = array();
+
+				foreach ($xmlProduct->Subject as $subject)
+				{
+					$category = null;
+
+					switch (strval($subject->SubjectSchemeIdentifier))
+					{
+						case '10'://Bisac
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+
+						case '01'://CDD
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+					}
+
+					if(isset($category))
+						$categories[] = $category;
+				}
 				break;
 		}
+
+		return $categories;
+	}
+
+	private function getProductTags($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$tags = '';
+
+				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
+				{
+					switch (strval($subject->SubjectSchemeIdentifier))
+					{
+						case '20' : 
+							$tags = trim(strval($subject->SubjectCode));
+						break;
+					}
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				$tags = '';
+
+				foreach ($xmlProduct->Subject as $subject)
+				{
+					switch (strval($subject->SubjectSchemeIdentifier))
+					{
+						case '20' : 
+							$tags = trim(strval($subject->SubjectCode));
+						break;
+					}
+				}
+				break;
+		}
+
+		return $tags;
+	}
+
+	private function getProductAgeRationPrecision($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$ageRationPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangePrecision);
+				break;
+			case '2.0':
+			case '2.1':
+				$ageRationPrecision = strval($xmlProduct->AudienceRange->AudienceRangePrecision);
+				break;
+		}
+	}
+
+	private function getProductAgeRationValue($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$ageRationPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangeValue);
+				break;
+			case '2.0':
+			case '2.1':
+				$ageRationPrecision = strval($xmlProduct->AudienceRange->AudienceRangeValue);
+				break;
+		}
+	}
+
+	private function getProductSynopsis($xmlProduct)
+	{
+		$synopsis = '';
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				foreach($xmlProduct->CollateralDetail->TextContent as $textContent)
+				{
+					if(strval($textContent->TextType) == '03')
+						$synopsis = strval($textContent->Text->p);
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				foreach($xmlProduct->OtherText as $otherText)
+				{
+					if(strval($otherText->TextTypeCode) == '01')
+						$synopsis = strval($otherText->Text);
+				}
+				break;
+		}
+
+		return $synopsis;
+	}
+
+	private function getProductFormatFile($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
+					strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+				{
+					$formatFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->FeatureValue);
+					// $product->setUrlFile(strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink));
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				$formatFile = '';
+				break;
+		}
+
+		return $formatFile;
+	}
+
+	private function getProductUrlFile($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
+					strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+				{
+					$urlFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink);
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				$urlFile = '';
+				break;
+		}
+
+		return $urlFile;
+	}
+
+	private function getProductPrices($xmlProduct)
+	{
+		$prices = array();
+
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				if(is_array($xmlProduct->SupplyDetail->Price))
+				{
+					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
+					{
+						$price = new \BBM\model\Price();
+
+						$price->setType(strval($xmlPrice->PriceType));
+						$price->setStatus(strval($xmlPrice->PriceStatus));
+						$price->setAmount(strval($xmlPrice->PriceAmount));
+						$price->setCurrency(strval($xmlPrice->CurrencyCode));
+
+						$prices[] = $price;
+					}
+				}
+				else
+				{
+					$price = new \BBM\model\Price();
+
+					$price->setType(strval($xmlProduct->ProductSupply->SupplyDetail->PriceType));
+					$price->setStatus(strval($xmlProduct->ProductSupply->SupplyDetail->PriceStatus));
+					$price->setAmount(strval($xmlProduct->ProductSupply->SupplyDetail->PriceAmount));
+					$price->setCurrency(strval($xmlProduct->ProductSupply->SupplyDetail->CurrencyCode));
+
+					$prices[] = $price;
+				}
+				break;
+			case '2.0':
+			case '2.1':
+				if(is_array($xmlProduct->SupplyDetail->Price))
+				{
+					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
+					{
+						$price = new \BBM\model\Price();
+
+						$price->setType(strval($xmlPrice->PriceTypeCode));
+						$price->setStatus('');
+						$price->setAmount(strval($xmlPrice->PriceAmount));
+						$price->setCurrency(strval($xmlPrice->CurrencyCode));
+
+						$prices[] = $price;
+					}
+				}
+				else
+				{
+					$price = new \BBM\model\Price();
+
+					$price->setType(strval($xmlProduct->SupplyDetail->Price->PriceTypeCode));
+					$price->setStatus('');
+					$price->setAmount(strval($xmlProduct->SupplyDetail->Price->PriceAmount));
+					$price->setCurrency(strval($xmlProduct->SupplyDetail->Price->CurrencyCode));
+
+					$prices[] = $price;
+				}
+				break;
+		}
+
+		return $prices;
 	}
 }

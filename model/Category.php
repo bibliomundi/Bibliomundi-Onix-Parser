@@ -44,13 +44,15 @@ abstract class Category
         $this->name = $name;
     }
 
-    /**
-     * Sets the value of name.
-     *
-     * @param mixed $name the name
-     *
-     * @return self
-     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+    }
 
 }
 
@@ -58,15 +60,11 @@ namespace BBM\model\Category;
 
 class Bisac extends \BBM\model\Category
 {    
-    public function __construct($code)
+    public function __construct($code, $name)
     {
-        if(array_key_exists($code, \BBM\model\ProductEnum::$bisac))
-        {
-            $this->setName(\BBM\model\ProductEnum::$bisac[$code]);
-            $this->setCode($code);
-        }
-        else
-            throw new \Exception('Not Found');
+        $this->name = $name;
+        $this->code = $code;
+        $this->identifier = '10';
     }
 }
 
@@ -74,14 +72,10 @@ namespace BBM\model\Category;
 
 class CDD extends \BBM\model\Category
 {
-    public function __construct($code)
+    public function __construct($code, $name)
     {
-        if(array_key_exists($code, \BBM\model\ProductEnum::$cdd))
-        {
-            $this->setName(\BBM\model\ProductEnum::$cdd[$code]);
-            $this->setCode($code);
-        }
-        else
-            throw new \Exception('Not Found');
+        $this->name = $name;
+        $this->code = $code;
+        $this->identifier = '01' ;
     }
 }
