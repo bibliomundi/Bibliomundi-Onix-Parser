@@ -1,5 +1,5 @@
 {
-    "name": "bibliomundi/bibliomundi-onix-parser",
+    "name": "magrao/bibliomundi-onix-parser",
     "type": "library",
     "description": "Parser for Onix >=2.0",
     "keywords": ["onix","parser"],
