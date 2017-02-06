@@ -1,7 +1,24 @@
 {
-    "name": "Bibliomundi-Onix-Parser",
-    "description": "Parser xml onix into php Object",
+    "name": "bibliomundi/Bibliomundi-Onix-Parser",
+    "type": "library",
+    "description": "Parser for Onix >=2.0",
+    "keywords": ["onix","parser"],
+    "homepage": "https://github.com/bibliomundi/Bibliomundi-Onix-Parser",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos Magno",
+            "email": "carlos.magno@bibliomundi.com",
+            "homepage": "",
+            "role": "Developer"
+        }
+    ],
     "require": {
-        "php": "^5.3.3"
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Monolog": "src"
+        }
     }
 }
