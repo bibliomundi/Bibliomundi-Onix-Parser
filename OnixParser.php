@@ -68,9 +68,9 @@ class OnixParser
 
 			$product->setTags($this->getProductTags($xmlProduct));
 
-			$product->setAgeRatingPrecision($this->getProductAgeRationPrecision($xmlProduct));
+			$product->setAgeRatingPrecision($this->getProductAgeRatingPrecision($xmlProduct));
 
-			$product->setAgeRatingValue($this->getProductAgeRationValue($xmlProduct));
+			$product->setAgeRatingValue($this->getProductAgeRatingValue($xmlProduct));
 
 			$product->setSynopsis($this->getProductSynopsis($xmlProduct));
 
@@ -79,7 +79,7 @@ class OnixParser
 			$product->setUrlFile($this->getProductUrlFile($xmlProduct));
 
 			$product->setPrices($this->getProductPrices($xmlProduct));
-			
+
 			$this->onix->setProduct($product);
 		}
 	}
@@ -559,32 +559,40 @@ class OnixParser
 		return $tags;
 	}
 
-	private function getProductAgeRationPrecision($xmlProduct)
+	private function getProductAgeRatingPrecision($xmlProduct)
 	{
+		$ageRatingPrecision = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				$ageRationPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangePrecision);
+				$ageRatingPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangePrecision);
 				break;
 			case '2.0':
 			case '2.1':
-				$ageRationPrecision = strval($xmlProduct->AudienceRange->AudienceRangePrecision);
+				$ageRatingPrecision = strval($xmlProduct->AudienceRange->AudienceRangePrecision);
 				break;
 		}
+
+		return $ageRatingPrecision;
 	}
 
-	private function getProductAgeRationValue($xmlProduct)
+	private function getProductAgeRatingValue($xmlProduct)
 	{
+		$ageRationValue = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				$ageRationPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangeValue);
+				$ageRatingValue = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangeValue);
 				break;
 			case '2.0':
 			case '2.1':
-				$ageRationPrecision = strval($xmlProduct->AudienceRange->AudienceRangeValue);
+				$ageRatingValue = strval($xmlProduct->AudienceRange->AudienceRangeValue);
 				break;
 		}
+
+		return $ageRatingValue;
 	}
 
 	private function getProductSynopsis($xmlProduct)
