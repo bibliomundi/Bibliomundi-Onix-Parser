@@ -309,9 +309,9 @@ class Product
      *
      * @return mixed
      */
-    public function getPagesNumber()
+    public function getPageNumbers()
     {
-        return $this->pagesNumber;
+        return $this->pageNumbers;
     }
 
     /**
