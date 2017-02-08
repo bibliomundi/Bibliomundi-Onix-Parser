@@ -30,6 +30,11 @@ abstract class Contributor
         return $this->role;
     }
 
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
     /**
      * Sets the value of id.
      *
@@ -227,7 +232,7 @@ class Autor extends \BBM\model\Contributor
 {
     public function __construct()
     {
-        $this->role = 'A01';
+        parent::setRole('A01');
     }
 }
 
@@ -237,6 +242,6 @@ class Ilustrador extends \BBM\model\Contributor
 {
     public function __construct()
     {
-        $this->role = 'A12';
+        parent::setRole('A12');
     }
 }
