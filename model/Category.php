@@ -4,8 +4,9 @@ namespace BBM\model;
 
 abstract class Category
 {
-	private $code;
-	private $name;
+    private $code;
+    private $name;
+    private $identifier;
 
      /**
      * Gets the value of code.
@@ -62,9 +63,9 @@ class Bisac extends \BBM\model\Category
 {    
     public function __construct($code, $name)
     {
-        $this->name = $name;
-        $this->code = $code;
-        $this->identifier = '10';
+        parent::setName($name);
+        parent::setCode($code);
+        parent::setIdentifier('10');
     }
 }
 
@@ -74,8 +75,8 @@ class CDD extends \BBM\model\Category
 {
     public function __construct($code, $name)
     {
-        $this->name = $name;
-        $this->code = $code;
-        $this->identifier = '01' ;
+        parent::setName($name);
+        parent::setCode($code);
+        parent::setIdentifier('01');
     }
 }

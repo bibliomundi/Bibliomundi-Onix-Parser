@@ -4,37 +4,37 @@ namespace BBM\model;
 
 class Product
 {
-	private $availability;
-	private $id;
-	private $isbn;
-	private $operationType;
-	private $formatType;
-	private $protectionType;
-	private $collectionTitle;
-	private $title;
-	private $subTitle;
-	private $contributors = array();
-	private $editionNumber;
-	private $idiom;
-	private $pageNumbers;
-	private $size;
-	private $sizeUnit;
-	private $categories = array();
-	private $tags;
+    private $availability;
+    private $id;
+    private $isbn;
+    private $operationType;
+    private $formatType;
+    private $protectionType;
+    private $collectionTitle;
+    private $title;
+    private $subTitle;
+    private $contributors = array();
+    private $editionNumber;
+    private $idiom;
+    private $pageNumbers;
+    private $size;
+    private $sizeUnit;
+    private $categories = array();
+    private $tags;
     private $ageRatingPrecision;
-	private $ageRatingValue;
-	private $synopsis;
-	private $formatFile;
-	private $urlFile;
-	private $prices = array();
+    private $ageRatingValue;
+    private $synopsis;
+    private $formatFile;
+    private $urlFile;
+    private $prices = array();
 
-	/**
-	 * @param [type]
-	 */
-	public function setAvailability($availability)
-	{
-		$this->availability = $availability;
-	}
+    /**
+     * @param [type]
+     */
+    public function setAvailability($availability)
+    {
+        $this->availability = $availability;
+    }
 
     /**
      * Gets the value of availability.
@@ -46,13 +46,13 @@ class Product
         return $this->availability;
     }
 
-	/**
-	 * @param [type]
-	 */
-	public function setOperationType($operationType)
-	{
-		$this->operationType = $operationType;
-	}
+    /**
+     * @param [type]
+     */
+    public function setOperationType($operationType)
+    {
+        $this->operationType = $operationType;
+    }
 
     /**
      * Gets the value of operationType.
@@ -235,14 +235,14 @@ class Product
      */
     public function getContributorsByType($type)
     {
-    	$contributors = array();
+        $contributors = array();
 
         foreach ($this->contributors as $contributor) 
         {
             $reflection = new \ReflectionClass($contributor);
             
-        	if($reflection->getShortName() == ucfirst($type))
-        		$contributors[] = $contributor;
+            if($reflection->getShortName() == ucfirst($type))
+                $contributors[] = $contributor;
         }
 
         return $contributors;
@@ -378,6 +378,21 @@ class Product
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    public function getCategoriesByType($type)
+    {
+        $categories = array();
+
+        foreach ($this->categories as $category) 
+        {
+            $reflection = new \ReflectionClass($category);
+            
+            if($reflection->getShortName() == ucfirst($type))
+                $categories[] = $category;
+        }
+
+        return $categories;
     }
 
 
