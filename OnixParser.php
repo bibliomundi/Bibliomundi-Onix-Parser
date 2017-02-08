@@ -669,7 +669,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if(is_array($xmlProduct->SupplyDetail->Price))
+				if(count($xmlProduct->SupplyDetail->Price) > 1)//is array
 				{
 					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
 					{
@@ -697,7 +697,7 @@ class OnixParser
 				break;
 			case '2.0':
 			case '2.1':
-				if(is_array($xmlProduct->SupplyDetail->Price))
+				if(count($xmlProduct->SupplyDetail->Price) > 1)//is array
 				{
 					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
 					{
