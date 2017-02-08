@@ -337,8 +337,6 @@ class OnixParser
 				break;
 		}
 
-		var_dump($contributors);exit;
-
 		return $contributors;
 	}
 
