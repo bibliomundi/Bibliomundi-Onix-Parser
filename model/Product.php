@@ -27,6 +27,7 @@ class Product
     private $formatFile;
     private $urlFile;
     private $prices = array();
+    private $includedTerritoriality;
 
     /**
      * @param [type]
@@ -560,5 +561,27 @@ class Product
     public function setPrices(Array $prices)
     {
         $this->prices = $prices;
+    }
+
+     /**
+     * Gets the value of price.
+     *
+     * @return mixed
+     */
+    public function getIncludedTerritoriality()
+    {
+        return $this->includedTerritoriality;
+    }
+
+    /**
+     * Sets the value of price.
+     *
+     * @param mixed $price the price
+     *
+     * @return self
+     */
+    public function setIncludedTerritoriality($includedTerritoriality)
+    {
+        $this->includedTerritoriality = $includedTerritoriality;
     }
 }

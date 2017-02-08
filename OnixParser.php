@@ -54,7 +54,7 @@ class OnixParser
 
 			$product->setContributors($this->getProductContributors($xmlProduct));
 
-			$product->setEditionNumber(strval($xmlProduct->DescriptiveDetail->EditionNumber));
+			$product->setEditionNumber($this->getProductEditionNumber($xmlProduct));
 
 			$product->setIdiom($this->getProductIdiom($xmlProduct));
 
@@ -73,6 +73,8 @@ class OnixParser
 			$product->setAgeRatingValue($this->getProductAgeRatingValue($xmlProduct));
 
 			$product->setSynopsis($this->getProductSynopsis($xmlProduct));
+
+			$product->setIncludedTerritoriality($this->getProductIncludedTerritoriality($xmlProduct));
 
 			$product->setFormatFile($this->getProductFormatFile($xmlProduct));
 
@@ -338,6 +340,22 @@ class OnixParser
 		}
 
 		return $contributors;
+	}
+
+	private function getProductEditionNumber($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$editionNumber = strval($xmlProduct->DescriptiveDetail->EditionNumber);
+				break;
+			case '2.0':
+			case '2.1':
+				$editionNumber = strval($xmlProduct->EditionNumber);
+				break;
+		}
+
+		return $editionNumber;
 	}
 
 	private function getProductIdiom($xmlProduct)
@@ -728,5 +746,21 @@ class OnixParser
 		}
 
 		return $prices;
+	}
+
+	private function getProductIncludedTerritoriality($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+				$includedTerritoriality = strval($xmlProduct->ProductSupply->Market->Territory->CountriesIncluded);
+				break;
+			case '2.0':
+			case '2.1':
+				$includedTerritoriality = strval($xmlProduct->SalesRights->RightsTerritory);
+				break;
+		}
+
+		return $includedTerritoriality;
 	}
 }
