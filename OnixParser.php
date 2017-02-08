@@ -296,6 +296,7 @@ class OnixParser
 						$contributor->setTypeName(strval($xmlContributor->NameIdentifier->IDTypeName));
 						$contributor->setLastName(strval($xmlContributor->KeyNames));
 						$contributor->setBiography(strval($xmlContributor->BiographicalNote->p));
+						$contributor->setTerritoriality(strval($xmlContributor->ContributorPlace->CountryCode));
 						if(isset($xmlContributor->Website) && strval($xmlContributor->Website->WebsiteRole == '06')) //Se o site for do proprio contribuidor
 							$contributor->setWebsite(strval($xmlContributor->Website->WebsiteLink));
 
@@ -328,12 +329,15 @@ class OnixParser
 						$contributor->setLastName(strval($xmlContributor->KeyNames));
 						$contributor->setBiography(strval($xmlContributor->BiographicalNote));
 						$contributor->setWebsite('');
+						$contributor->setTerritoriality(strval($xmlContributor->CountryCode));
 
 						$contributors[] = $contributor;
 					}
 				}
 				break;
 		}
+
+		var_dump($contributors);exit;
 
 		return $contributors;
 	}

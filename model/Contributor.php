@@ -11,7 +11,8 @@ abstract class Contributor
 	private $name;
 	private $lastName;
 	private $biography;
-	private $website;
+    private $website;
+	private $territoriality;
 
 
     /**
@@ -194,6 +195,28 @@ abstract class Contributor
     public function setWebsite($website)
     {
         $this->website = $website;
+    }
+
+    /**
+     * Gets the value of website.
+     *
+     * @return mixed
+     */
+    public function getTerritoriality()
+    {
+        return $this->territoriality;
+    }
+
+    /**
+     * Sets the value of territoriality.
+     *
+     * @param mixed $territoriality the territoriality
+     *
+     * @return self
+     */
+    public function setTerritoriality($territoriality)
+    {
+        $this->territoriality = $territoriality;
     }
 
 }
