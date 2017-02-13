@@ -1,8 +1,15 @@
 <?php 
 
-namespace BBM\parser;
+namespace BBMParser;
 
-require 'autoload.php';
+use BBMParser\Model\Price as Price;
+use BBMParser\Model\Author as Author;
+use BBMParser\Model\ilustrator as Ilustrator;
+use BBMParser\Model\Bisac as Bisac;
+use BBMParser\Model\CDD as CDD;
+use BBMParser\Model\Header as Header;
+use BBMParser\Model\Onix as Onix;
+use BBMParser\Model\Product as Product;
 
 /**
  * Convert XML Onix(Essential) to object
@@ -24,15 +31,17 @@ class OnixParser
 		else
  			$xml = simplexml_load_string($xml);
 
-		$this->onix = new \BBM\model\Onix();
+		$this->onix = new Onix();
 
 		$this->onix->setVersion($xml['release']);
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
 
+		var_dump($this->onix->getHeader());exit;
+
 		foreach ($xml->Product as $xmlProduct)
 		{
-			$product = new \BBM\model\Product();
+			$product = new Product();
 
 			$product->setAvailability($this->getProductAvailability($xmlProduct));
 
@@ -90,7 +99,7 @@ class OnixParser
 
 	private function getHeader($xmlHeader)
 	{
-		$header = new \BBM\model\Header();
+		$header = new Header();
 
 		switch ($this->onix->getVersion()) 
 		{
@@ -300,10 +309,10 @@ class OnixParser
 					switch (strval($xmlContributor->ContributorRole))
 					{
 						case 'A01'://Significa que é autor do livro
-							$contributor = new \BBM\model\Contributor\Autor();
+							$contributor = new Author();
 							break;
 						case 'A12'://Significa que é ilustrador do livro
-							$contributor = new \BBM\model\Contributor\Ilustrador();
+							$contributor = new Ilustrator();
 							break;
 					}
 
@@ -332,10 +341,10 @@ class OnixParser
 					switch (strval($xmlContributor->ContributorRole))
 					{
 						case 'A01'://Significa que é autor do livro
-							$contributor = new \BBM\model\Contributor\Autor();
+							$contributor = new Author();
 							break;
 						case 'A12'://Significa que é ilustrador do livro
-							$contributor = new \BBM\model\Contributor\Ilustrador();
+							$contributor = new Ilustrator();
 							break;
 					}
 
@@ -483,7 +492,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -497,7 +506,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -526,7 +535,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\Bisac(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+								$category = new Bisac(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -540,7 +549,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\CDD(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+								$category = new CDD(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -565,7 +574,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -579,7 +588,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new \BBM\model\Category\CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
 							}
 							catch(\Exception $e)
 							{
@@ -749,7 +758,7 @@ class OnixParser
 				{
 					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
 					{
-						$price = new \BBM\model\Price();
+						$price = new Price();
 
 						$price->setType(strval($xmlPrice->PriceType));
 						$price->setStatus(strval($xmlPrice->PriceStatus));
@@ -761,7 +770,7 @@ class OnixParser
 				}
 				else
 				{
-					$price = new \BBM\model\Price();
+					$price = new Price();
 
 					$price->setType(strval($xmlProduct->ProductSupply->SupplyDetail->PriceType));
 					$price->setStatus(strval($xmlProduct->ProductSupply->SupplyDetail->PriceStatus));
@@ -777,7 +786,7 @@ class OnixParser
 				{
 					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
 					{
-						$price = new \BBM\model\Price();
+						$price = new Price();
 
 						$price->setType(strval($xmlPrice->PriceTypeCode));
 						$price->setStatus('');
@@ -789,7 +798,7 @@ class OnixParser
 				}
 				else
 				{
-					$price = new \BBM\model\Price();
+					$price = new Price();
 
 					$price->setType(strval($xmlProduct->SupplyDetail->Price->PriceTypeCode));
 					$price->setStatus('');

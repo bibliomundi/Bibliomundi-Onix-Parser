@@ -1,6 +1,6 @@
 <?php
 
-namespace BBM\model;
+namespace BBMParser\Model;
 
 abstract class Category
 {
@@ -55,28 +55,4 @@ abstract class Category
         $this->identifier = $identifier;
     }
 
-}
-
-namespace BBM\model\Category;
-
-class Bisac extends \BBM\model\Category
-{    
-    public function __construct($code, $name)
-    {
-        parent::setName($name);
-        parent::setCode($code);
-        parent::setIdentifier('10');
-    }
-}
-
-namespace BBM\model\Category;
-
-class CDD extends \BBM\model\Category
-{
-    public function __construct($code, $name)
-    {
-        parent::setName($name);
-        parent::setCode($code);
-        parent::setIdentifier('01');
-    }
 }

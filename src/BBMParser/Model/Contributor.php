@@ -1,6 +1,6 @@
 <?php
 
-namespace BBM\model;
+namespace BBMParser\Model;
 
 abstract class Contributor
 {
@@ -224,24 +224,4 @@ abstract class Contributor
         $this->territoriality = $territoriality;
     }
 
-}
-
-namespace BBM\model\Contributor;
-
-class Autor extends \BBM\model\Contributor
-{
-    public function __construct()
-    {
-        parent::setRole('A01');
-    }
-}
-
-namespace BBM\model\Contributor;
-
-class Ilustrador extends \BBM\model\Contributor
-{
-    public function __construct()
-    {
-        parent::setRole('A12');
-    }
 }

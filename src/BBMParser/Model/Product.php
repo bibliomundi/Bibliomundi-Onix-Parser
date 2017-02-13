@@ -1,6 +1,6 @@
 <?php
 
-namespace BBM\model;
+namespace BBMParser\Model;
 
 class Product
 {
