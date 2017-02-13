@@ -42,6 +42,8 @@ class OnixParser
 
 			$product->setISBN($this->getProductISBN($xmlProduct));
 
+			$product->setImprintName($this->getProductImprintName($xmlProduct));
+
 			$product->setFormatType($this->getProductFormatType($xmlProduct));
 
 			$product->setProtectionType($this->getProductProtectionType($xmlProduct));
@@ -180,6 +182,21 @@ class OnixParser
 
 		return $isbn;
 	}
+
+	private function getProductImprintName($xmlProduct)
+	{
+		switch ($this->onix->getVersion())
+		{
+			case '3.0':
+			case '2.0':
+			case '2.1':
+				$imprintName = strval($xmlProduct->Imprint->ImprintName);
+				break;
+		}
+
+		return $imprintName;
+	}
+
 
 	private function getProductFormatType($xmlProduct)
 	{

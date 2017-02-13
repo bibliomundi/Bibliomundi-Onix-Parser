@@ -28,6 +28,7 @@ class Product
     private $urlFile;
     private $prices = array();
     private $includedTerritoriality;
+    private $imprintName;
 
     /**
      * @param [type]
@@ -583,5 +584,27 @@ class Product
     public function setIncludedTerritoriality($includedTerritoriality)
     {
         $this->includedTerritoriality = $includedTerritoriality;
+    }
+
+     /**
+     * Gets the value of price.
+     *
+     * @return mixed
+     */
+    public function getImprintName()
+    {
+        return $this->imprintName;
+    }
+
+    /**
+     * Sets the value of price.
+     *
+     * @param mixed $price the price
+     *
+     * @return self
+     */
+    public function setImprintName($imprintName)
+    {
+        $this->imprintName = $imprintName;
     }
 }
