@@ -66,11 +66,6 @@ class OnixParser
 
 			$product->setCategories($this->getProductCategories($xmlProduct));
 
-			if($product->getISBN() == '9781628578010')
-			{
-				var_dump($product->getCategories());exit;
-			}
-
 			$product->setTags($this->getProductTags($xmlProduct));
 
 			$product->setAgeRatingPrecision($this->getProductAgeRatingPrecision($xmlProduct));
