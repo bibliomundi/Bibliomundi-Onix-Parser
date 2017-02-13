@@ -66,6 +66,11 @@ class OnixParser
 
 			$product->setCategories($this->getProductCategories($xmlProduct));
 
+			if($product->getISBN() == '9781628578010')
+			{
+				var_dump($product->getCategories());exit;
+			}
+
 			$product->setTags($this->getProductTags($xmlProduct));
 
 			$product->setAgeRatingPrecision($this->getProductAgeRatingPrecision($xmlProduct));
@@ -498,6 +503,45 @@ class OnixParser
 			case '2.0':
 			case '2.1':
 				$categories = array();
+
+				foreach ($xmlProduct->MainSubject as $mainSubject)
+				{
+					$category = null;
+
+					switch (strval($mainSubject->MainSubjectSchemeIdentifier))
+					{
+						case '10'://Bisac
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\Bisac(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+
+						case '01'://CDD
+							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
+							try
+							{
+								$category = new \BBM\model\Category\CDD(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+							}
+							catch(\Exception $e)
+							{
+								unset($category);
+								continue 2;//Passa para a próxima categoria
+							}
+
+						break;
+					}
+
+					if(isset($category))
+						$categories[] = $category;
+				}
 
 				foreach ($xmlProduct->Subject as $subject)
 				{
