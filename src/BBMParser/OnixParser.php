@@ -4,7 +4,7 @@ namespace BBMParser;
 
 use BBMParser\Model\Price as Price;
 use BBMParser\Model\Author as Author;
-use BBMParser\Model\ilustrator as Ilustrator;
+use BBMParser\Model\Ilustrator as Ilustrator;
 use BBMParser\Model\Bisac as Bisac;
 use BBMParser\Model\CDD as CDD;
 use BBMParser\Model\Header as Header;
