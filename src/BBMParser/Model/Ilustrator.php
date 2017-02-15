@@ -2,7 +2,7 @@
 
 namespace BBMParser\Model;
 
-class Ilustrator extends BBMParser\Model\Contributor
+class Ilustrator extends Contributor
 {
     public function __construct()
     {

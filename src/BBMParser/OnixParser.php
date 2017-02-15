@@ -37,8 +37,6 @@ class OnixParser
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
 
-		var_dump($this->onix->getHeader());exit;
-
 		foreach ($xml->Product as $xmlProduct)
 		{
 			$product = new Product();

@@ -2,7 +2,7 @@
 
 namespace BBMParser\Model;
 
-class Author extends BBMParser\Model\Contributor
+class Author extends Contributor
 {
     public function __construct()
     {

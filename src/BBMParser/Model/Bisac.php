@@ -2,7 +2,7 @@
 
 namespace BBMParser\Model;
 
-class Bisac extends BBMParser\Model\Category
+class Bisac extends Category
 {    
     public function __construct($code, $name)
     {

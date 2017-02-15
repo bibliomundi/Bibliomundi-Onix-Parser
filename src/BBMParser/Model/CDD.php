@@ -2,7 +2,7 @@
 
 namespace BBMParser\Model;
 
-class CDD extends BBMParser\Model\Category
+class CDD extends Category
 {
     public function __construct($code, $name)
     {
