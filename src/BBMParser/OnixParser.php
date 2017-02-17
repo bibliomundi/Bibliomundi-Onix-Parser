@@ -840,8 +840,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if(isset($xmlProduct->ProductSupply->Market))
-					$includedTerritoriality = strval($xmlProduct->ProductSupply->Market->Territory->CountriesIncluded);
+					$includedTerritoriality = strval($xmlProduct->PublishingDetail->SalesRights->Territory->RegionsIncluded);
 				break;
 			case '2.0':
 			case '2.1':
