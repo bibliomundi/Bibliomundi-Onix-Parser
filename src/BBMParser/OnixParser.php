@@ -699,7 +699,7 @@ class OnixParser
 					foreach($xmlProduct->CollateralDetail->TextContent as $textContent)
 					{
 						if(strval($textContent->TextType) == '03')
-							$synopsis = strval($textContent->Text->p);
+							$synopsis = strval($textContent->Text);
 					}
 				}
 				break;
@@ -840,13 +840,19 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+				if(isset($xmlProduct->PublishingDetail->SalesRights->Territory->RegionsIncluded))
 					$includedTerritoriality = strval($xmlProduct->PublishingDetail->SalesRights->Territory->RegionsIncluded);
+				else
+					$includedTerritoriality = strval($xmlProduct->PublishingDetail->SalesRights->Territory->CountriesIncluded);
 				break;
 			case '2.0':
 			case '2.1':
 				$includedTerritoriality = strval($xmlProduct->SalesRights->RightsTerritory);
 				break;
 		}
+
+		if(!isset($xmlProduct->PublishingDetail->SalesRights))
+		{	var_dump($xmlProduct);}
 
 		return $includedTerritoriality;
 	}
