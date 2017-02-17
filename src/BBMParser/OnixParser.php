@@ -91,6 +91,8 @@ class OnixParser
 
 			$product->setPrices($this->getProductPrices($xmlProduct));
 
+			var_dump($product);exit;
+
 			$this->onix->setProduct($product);
 		}
 	}
@@ -772,9 +774,9 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if(count($xmlProduct->SupplyDetail->Price) > 1)//is array
+				if(count($xmlProduct->ProductSupply->SupplyDetail->Price) > 1)//is array
 				{
-					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
+					foreach ($xmlProduct->ProductSupply->SupplyDetail->Price as $xmlPrice) 
 					{
 						$price = new Price();
 
