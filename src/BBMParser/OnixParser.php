@@ -268,7 +268,10 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText);
+				if(isset($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText))
+					$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText);
+				else
+					$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitlePrefix . ' ' . $xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleWithoutPrefix);
 				break;
 			case '2.0':
 			case '2.1':
@@ -850,9 +853,6 @@ class OnixParser
 				$includedTerritoriality = strval($xmlProduct->SalesRights->RightsTerritory);
 				break;
 		}
-
-		if(!isset($xmlProduct->PublishingDetail->SalesRights))
-		{	var_dump($xmlProduct);}
 
 		return $includedTerritoriality;
 	}
