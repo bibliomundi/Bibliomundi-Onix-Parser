@@ -12,7 +12,7 @@ use BBMParser\Model\Onix as Onix;
 use BBMParser\Model\Product as Product;
 
 /**
- * Convert XML Onix(Essential) to object
+ * Convert XML Onix(Essential) to object 
  */
 
 class OnixParser
