@@ -195,6 +195,8 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+				$imprintName = strval($xmlProduct->PublishingDetail->Imprint->ImprintName);
+			break;
 			case '2.0':
 			case '2.1':
 				$imprintName = strval($xmlProduct->Imprint->ImprintName);
