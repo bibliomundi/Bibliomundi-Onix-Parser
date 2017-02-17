@@ -91,8 +91,6 @@ class OnixParser
 
 			$product->setPrices($this->getProductPrices($xmlProduct));
 
-			var_dump($product);exit;
-
 			$this->onix->setProduct($product);
 		}
 	}
