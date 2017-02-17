@@ -248,7 +248,9 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-					$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
+			if(!isset($xmlProduct->DescriptiveDetail->NoCollection))
+				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
+				
 				break;
 			case '2.0':
 			case '2.1':
@@ -404,13 +406,18 @@ class OnixParser
 
 	private function getProductpageNumbers($xmlProduct)
 	{
+		$pageNumbers = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
+				if(isset($xmlProduct->DescriptiveDetail->Extent))
 				{
-					if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')
-						$pageNumbers = strval($extent->ExtentValue);
+					foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
+					{
+						if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')
+							$pageNumbers = strval($extent->ExtentValue);
+					}
 				}
 				break;
 			case '2.0':
@@ -685,10 +692,13 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				foreach($xmlProduct->CollateralDetail->TextContent as $textContent)
+				if(isset($xmlProduct->CollateralDetail->TextContent))
 				{
-					if(strval($textContent->TextType) == '03')
-						$synopsis = strval($textContent->Text->p);
+					foreach($xmlProduct->CollateralDetail->TextContent as $textContent)
+					{
+						if(strval($textContent->TextType) == '03')
+							$synopsis = strval($textContent->Text->p);
+					}
 				}
 				break;
 			case '2.0':
@@ -706,14 +716,19 @@ class OnixParser
 
 	private function getProductFormatFile($xmlProduct)
 	{
+		$formatFile = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
-					strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+				if(isset($xmlProduct->CollateralDetail->SupportingResource))
 				{
-					$formatFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->FeatureValue);
-					// $product->setUrlFile(strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink));
+					if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
+						strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+					{
+						$formatFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->FeatureValue);
+						// $product->setUrlFile(strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink));
+					}
 				}
 				break;
 			case '2.0':
@@ -727,13 +742,18 @@ class OnixParser
 
 	private function getProductUrlFile($xmlProduct)
 	{
+		$urlFile = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
-					strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+				if(isset($xmlProduct->CollateralDetail->SupportingResource))
 				{
-					$urlFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink);
+					if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
+						strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceVersionFeature->ResourceVersionFeatureType == '01'))
+					{
+						$urlFile = strval($xmlProduct->CollateralDetail->SupportingResource->ResourceVersion->ResourceLink);
+					}
 				}
 				break;
 			case '2.0':
@@ -813,10 +833,13 @@ class OnixParser
 
 	private function getProductIncludedTerritoriality($xmlProduct)
 	{
+		$includedTerritoriality = '';
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				$includedTerritoriality = strval($xmlProduct->ProductSupply->Market->Territory->CountriesIncluded);
+				if(isset($xmlProduct->ProductSupply->Market))
+					$includedTerritoriality = strval($xmlProduct->ProductSupply->Market->Territory->CountriesIncluded);
 				break;
 			case '2.0':
 			case '2.1':
