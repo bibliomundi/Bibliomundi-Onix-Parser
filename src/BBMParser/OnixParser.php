@@ -850,7 +850,10 @@ class OnixParser
 				break;
 			case '2.0':
 			case '2.1':
-				$includedTerritoriality = strval($xmlProduct->SalesRights->RightsTerritory);
+				if(isset($xmlProduct->SalesRights->RightsTerritory))
+					$includedTerritoriality = strval($xmlProduct->SalesRights->RightsTerritory);
+				else
+					$includedTerritoriality = strval($xmlProduct->SalesRights->RightsCountry);
 				break;
 		}
 
