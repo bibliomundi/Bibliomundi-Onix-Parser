@@ -5,7 +5,6 @@ namespace BBMParser\Model;
 abstract class Category
 {
     private $code;
-    private $name;
     private $identifier;
 
      /**
@@ -28,21 +27,6 @@ abstract class Category
     public function setCode($code)
     {
         $this->code = $code;
-    }
-
-    /**
-     * Gets the value of name.
-     *
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 
     public function getIdentifier()

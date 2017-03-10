@@ -4,9 +4,8 @@ namespace BBMParser\Model;
 
 class CDD extends Category
 {
-    public function __construct($code, $name)
+    public function __construct($code)
     {
-        parent::setName($name);
         parent::setCode($code);
         parent::setIdentifier('01');
     }

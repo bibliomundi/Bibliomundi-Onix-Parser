@@ -502,7 +502,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new Bisac(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new Bisac(strval($subject->SubjectCode));
 							}
 							catch(\Exception $e)
 							{
@@ -516,7 +516,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new CDD(strval($subject->SubjectCode), strval($subject->SubjectHeadingText));
+								$category = new CDD(strval($subject->SubjectCode));
 							}
 							catch(\Exception $e)
 							{
@@ -545,7 +545,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new Bisac(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+								$category = new Bisac(strval($mainSubject->SubjectCode));
 							}
 							catch(\Exception $e)
 							{
@@ -559,7 +559,7 @@ class OnixParser
 							//Gambiarra momentanea, pois ainda existem muitos ebooks que nao possuem categorias existentes. Creio eu
 							try
 							{
-								$category = new CDD(strval($mainSubject->SubjectCode), strval($mainSubject->SubjectHeadingText));
+								$category = new CDD(strval($mainSubject->SubjectCode));
 							}
 							catch(\Exception $e)
 							{

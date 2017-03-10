@@ -4,9 +4,8 @@ namespace BBMParser\Model;
 
 class Bisac extends Category
 {    
-    public function __construct($code, $name)
+    public function __construct($code)
     {
-        parent::setName($name);
         parent::setCode($code);
         parent::setIdentifier('10');
     }
