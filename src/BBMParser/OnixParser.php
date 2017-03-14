@@ -37,6 +37,10 @@ class OnixParser
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
 
+		//Needed!! becouse onix dont has tag for category names
+		Bisac::loadFile();
+		CDD::loadFile();
+
 		foreach ($xml->Product as $xmlProduct)
 		{
 			$product = new Product();
@@ -250,7 +254,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-			if(!isset($xmlProduct->DescriptiveDetail->NoCollection))
+			if(!isset($xmlProduct->DescriptiveDetail->NoCollection) && isset($xmlProduct->DescriptiveDetail->Collection))
 				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
 				
 				break;

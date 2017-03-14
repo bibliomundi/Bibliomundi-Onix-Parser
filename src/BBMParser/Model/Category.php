@@ -2,10 +2,16 @@
 
 namespace BBMParser\Model;
 
-abstract class Category
+interface Loadable
+{
+    static function loadFile();
+}
+
+abstract class Category implements Loadable
 {
     private $code;
     private $identifier;
+    private $name;
 
      /**
      * Gets the value of code.
@@ -38,5 +44,17 @@ abstract class Category
     {
         $this->identifier = $identifier;
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    abstract function getFromFile($code);
 
 }

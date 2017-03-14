@@ -1,0 +1,470 @@
+[
+      {
+        "code": "000",
+        "description_ptbr": "CIÊNCIA DA COMPUTAÇÃO, INFORMAÇÃO, OBRAS GERAIS"
+      },
+      {
+        "code": "010",
+        "description_ptbr": "BIBLIOGRAFIA"
+      },
+      {
+        "code": "020",
+        "description_ptbr": "BIBLIOTECONOMIA E CIÊNCIA DA INFORMAÇÃO"
+      },
+      {
+        "code": "028.5",
+        "description_ptbr": "LITERATURA INFANTO-JUVENIL"
+      },
+      {
+        "code": "030",
+        "description_ptbr": "ENCICLOPÉDIAS GERAIS"
+      },
+      {
+        "code": "050",
+        "description_ptbr": "PERIÓDICOS"
+      },
+      {
+        "code": "060",
+        "description_ptbr": "SOCIEDADES, ORGANIZAÇÕES E MUSEOLOGIA"
+      },
+      {
+        "code": "070",
+        "description_ptbr": "JORNALISMO, EDITORAÇÃO, IMPRENSA DOCUMENTÁRIA E EDUCATIVA"
+      },
+      {
+        "code": "080",
+        "description_ptbr": "COLEÇÕES DE OBRAS DIVERSAS SEM ASSUNTO ESPECÍFICO"
+      },
+      {
+        "code": "090",
+        "description_ptbr": "MANUSCRITOS, OBRAS RARAS E OUTROS MATERIAIS RAROS IMPRESSOS"
+      },
+      {
+        "code": "100",
+        "description_ptbr": "FILOSOFIA E PSICOLOGIA"
+      },
+      {
+        "code": "110",
+        "description_ptbr": "METAFÍSICA"
+      },
+      {
+        "code": "120",
+        "description_ptbr": "TEORIA DO CONHECIMENTO, CAUSALIDADE E SER HUMANO"
+      },
+      {
+        "code": "130",
+        "description_ptbr": "PARAPSICOLOGIA, OCULTISMO E ESPIRITISMO"
+      },
+      {
+        "code": "140",
+        "description_ptbr": "ESCOLAS FILOSÓFICAS ESPECÍFICAS"
+      },
+      {
+        "code": "150",
+        "description_ptbr": "PSICOLOGIA"
+      },
+      {
+        "code": "160",
+        "description_ptbr": "LÓGICA"
+      },
+      {
+        "code": "170",
+        "description_ptbr": "ÉTICA"
+      },
+      {
+        "code": "180",
+        "description_ptbr": "FILOSOFIA ANTIGA, MEDIEVAL E ORIENTAL"
+      },
+      {
+        "code": "190",
+        "description_ptbr": "FILOSOFIA MODERNA OCIDENTAL"
+      },
+      {
+        "code": "200",
+        "description_ptbr": "RELIGIÃO"
+      },
+      {
+        "code": "210",
+        "description_ptbr": "FILOSOFIA E TEORIA DA RELIGIÃO"
+      },
+      {
+        "code": "220",
+        "description_ptbr": "BÍBLIA"
+      },
+      {
+        "code": "230",
+        "description_ptbr": "CRISTIANISMO"
+      },
+      {
+        "code": "240",
+        "description_ptbr": "MORAL CRISTÃ E TEOLOGIA DEVOCIONAL"
+      },
+      {
+        "code": "250",
+        "description_ptbr": "CONGREGAÇÕES CRISTÃS, PRÁTICA E TEOLOGIA PASTORAL"
+      },
+      {
+        "code": "260",
+        "description_ptbr": "TEOLOGIA SOCIAL E ECLESIÁSTICA CRISTÃ"
+      },
+      {
+        "code": "270",
+        "description_ptbr": "HISTÓRIA DO CRISTIANISMO"
+      },
+      {
+        "code": "280",
+        "description_ptbr": "DENOMINAÇÕES E SEITAS CRISTÃS"
+      },
+      {
+        "code": "290",
+        "description_ptbr": "OUTRAS RELIGIÕES"
+      },
+      {
+        "code": "300",
+        "description_ptbr": "CIÊNCIAS SOCIAIS"
+      },
+      {
+        "code": "310",
+        "description_ptbr": "COLEÇÕES DE ESTATÍSTICAS GERAIS"
+      },
+      {
+        "code": "320",
+        "description_ptbr": "CIÊNCIA POLÍTICA"
+      },
+      {
+        "code": "330",
+        "description_ptbr": "ECONOMIA"
+      },
+      {
+        "code": "340",
+        "description_ptbr": "DIREITO"
+      },
+      {
+        "code": "350",
+        "description_ptbr": "ADMINISTRAÇÃO PÚBLICA E CIÊNCIA MILITAR"
+      },
+      {
+        "code": "360",
+        "description_ptbr": "SERVIÇOS E PROBLEMAS SOCIAIS ; ASSOCIAÇÕES"
+      },
+      {
+        "code": "370",
+        "description_ptbr": "EDUCAÇÃO"
+      },
+      {
+        "code": "380",
+        "description_ptbr": "COMÉRCIO, COMUNICAÇÕES E TRANSPORTE"
+      },
+      {
+        "code": "390",
+        "description_ptbr": "USOS E COSTUMES, ETIQUETA E FOLCLORE"
+      },
+      {
+        "code": "400",
+        "description_ptbr": "LINGUAGEM E LÍNGUAS"
+      },
+      {
+        "code": "403",
+        "description_ptbr": "DICIONÁRIOS E ENCICLOPÉDIAS"
+      },
+      {
+        "code": "410",
+        "description_ptbr": "LINGÜÍSTICA"
+      },
+      {
+        "code": "420",
+        "description_ptbr": "LÍNGUA INGLESA"
+      },
+      {
+        "code": "430",
+        "description_ptbr": "LÍNGUA ALEMÃ"
+      },
+      {
+        "code": "440",
+        "description_ptbr": "LÍNGUA FRANCESA"
+      },
+      {
+        "code": "450",
+        "description_ptbr": "LÍNGUA ITALIANA"
+      },
+      {
+        "code": "460",
+        "description_ptbr": "LÍNGUA ESPANHOLA"
+      },
+      {
+        "code": "469",
+        "description_ptbr": "LÍNGUA PORTUGUESA"
+      },
+      {
+        "code": "470",
+        "description_ptbr": "LÍNGUA LATINA"
+      },
+      {
+        "code": "480",
+        "description_ptbr": "LÍNGUA GREGA CLÁSSICA E MODERNA"
+      },
+      {
+        "code": "490",
+        "description_ptbr": "OUTRAS LÍNGUAS"
+      },
+      {
+        "code": "500",
+        "description_ptbr": "CIÊNCIAS NATURAIS"
+      },
+      {
+        "code": "510",
+        "description_ptbr": "MATEMÁTICA"
+      },
+      {
+        "code": "520",
+        "description_ptbr": "ASTRONOMIA E CIÊNCIAS AFINS"
+      },
+      {
+        "code": "530",
+        "description_ptbr": "FÍSICA"
+      },
+      {
+        "code": "540",
+        "description_ptbr": "QUÍMICA E CIÊNCIAS AFINS"
+      },
+      {
+        "code": "550",
+        "description_ptbr": "GEOCIÊNCIAS ; CIÊNCIAS DA TERRA"
+      },
+      {
+        "code": "560",
+        "description_ptbr": "PALEONTOLOGIA, PALEOZOOLOGIA"
+      },
+      {
+        "code": "570",
+        "description_ptbr": "BIOLOGIA, CIÊNCIAS DA VIDA"
+      },
+      {
+        "code": "580",
+        "description_ptbr": "PLANTAS (BOTÂNICA)"
+      },
+      {
+        "code": "590",
+        "description_ptbr": "ANIMAIS (ZOOLOGIA)"
+      },
+      {
+        "code": "600",
+        "description_ptbr": "TECNOLOGIA (CIÊNCIAS APLICADAS)"
+      },
+      {
+        "code": "602",
+        "description_ptbr": "TECNOLOGIA - MISCELÂNIA"
+      },
+      {
+        "code": "610",
+        "description_ptbr": "MEDICINA E SAÚDE"
+      },
+      {
+        "code": "620",
+        "description_ptbr": "ENGENHARIA"
+      },
+      {
+        "code": "630",
+        "description_ptbr": "AGRICULTURA E TECNOLOGIAS RELACIONADAS"
+      },
+      {
+        "code": "640",
+        "description_ptbr": "ECONOMIA DOMÉSTICA ; ADMINISTRAÇÃO DA FAMÍLIA E DO LAR"
+      },
+      {
+        "code": "641.5",
+        "description_ptbr": "CULINÁRIA"
+      },
+      {
+        "code": "650",
+        "description_ptbr": "ADMINISTRAÇÃO E SERVIÇOS AUXILIARES"
+      },
+      {
+        "code": "657",
+        "description_ptbr": "CONTABILIDADE"
+      },
+      {
+        "code": "660",
+        "description_ptbr": "ENGENHARIA QUÍMICA E TECNOLOGIAS RELACIONADAS"
+      },
+      {
+        "code": "670",
+        "description_ptbr": "PRODUTOS MANUFATURADOS"
+      },
+      {
+        "code": "680",
+        "description_ptbr": "MANUFATURA PARA USOS ESPECÍFICOS"
+      },
+      {
+        "code": "690",
+        "description_ptbr": "CONSTRUÇÕES"
+      },
+      {
+        "code": "700",
+        "description_ptbr": "ARTES"
+      },
+      {
+        "code": "710",
+        "description_ptbr": "PLANEJAMENTO URBANO E PAISAGISMO"
+      },
+      {
+        "code": "720",
+        "description_ptbr": "ARQUITETURA"
+      },
+      {
+        "code": "730",
+        "description_ptbr": "ARTES PLÁSTICAS ; ESCULTURA"
+      },
+      {
+        "code": "740",
+        "description_ptbr": "DESENHO E ARTES DECORATIVAS"
+      },
+      {
+        "code": "750",
+        "description_ptbr": "PINTURA"
+      },
+      {
+        "code": "760",
+        "description_ptbr": "ARTES GRÁFICAS ; GRAVURAS"
+      },
+      {
+        "code": "770",
+        "description_ptbr": "FOTOGRAFIA E ARTE POR COMPUTADOR"
+      },
+      {
+        "code": "780",
+        "description_ptbr": "MÚSICA"
+      },
+      {
+        "code": "790",
+        "description_ptbr": "ARTES CÊNICAS E RECREATIVAS; ESPORTES"
+      },
+      {
+        "code": "800",
+        "description_ptbr": "LITERATURA E RETÓRICA"
+      },
+      {
+        "code": "810",
+        "description_ptbr": "LITERATURA AMERICANA"
+      },
+      {
+        "code": "820",
+        "description_ptbr": "LITERATURA INGLESA"
+      },
+      {
+        "code": "830",
+        "description_ptbr": "LITERATURA ALEMÃ"
+      },
+      {
+        "code": "840",
+        "description_ptbr": "LITERATURA FRANCESA"
+      },
+      {
+        "code": "850",
+        "description_ptbr": "LITERATURA ITALIANA"
+      },
+      {
+        "code": "860",
+        "description_ptbr": "LITERATURA ESPANHOLA"
+      },
+      {
+        "code": "869",
+        "description_ptbr": "LITERATURA PORTUGUESA"
+      },
+      {
+        "code": "870",
+        "description_ptbr": "LITERATURA LATINA"
+      },
+      {
+        "code": "880",
+        "description_ptbr": "LITERATURA GREGA"
+      },
+      {
+        "code": "890",
+        "description_ptbr": "OUTRAS LITERATURAS, LITERATURAS EM OUTROS IDIOMAS"
+      },
+      {
+        "code": "900",
+        "description_ptbr": "GEOGRAFIA E HISTÓRIA"
+      },
+      {
+        "code": "910",
+        "description_ptbr": "GEOGRAFIA E VIAGENS"
+      },
+      {
+        "code": "918.1",
+        "description_ptbr": "GEOGRAFIA E VIAGENS - BRASIL"
+      },
+      {
+        "code": "920",
+        "description_ptbr": "BIOGRAFIAS, GENEALOGIA, INSÍGNIA"
+      },
+      {
+        "code": "930",
+        "description_ptbr": "HISTÓRIA DO MUNDO ANTIGO ATÉ CA. 499"
+      },
+      {
+        "code": "940",
+        "description_ptbr": "HISTÓRIA DA EUROPA"
+      },
+      {
+        "code": "950",
+        "description_ptbr": "HISTÓRIA DA ÁSIA ; ORIENTE"
+      },
+      {
+        "code": "960",
+        "description_ptbr": "HISTÓRIA DA ÁFRICA"
+      },
+      {
+        "code": "970",
+        "description_ptbr": "HISTÓRIA DA AMÉRICA DO NORTE"
+      },
+      {
+        "code": "980",
+        "description_ptbr": "HISTÓRIA DA AMÉRICA DO SUL"
+      },
+      {
+        "code": "981",
+        "description_ptbr": "HISTÓRIA DO BRASIL"
+      },
+      {
+        "code": "990",
+        "description_ptbr": "HISTÓRIA DE OUTRAS REGIÕES"
+      },
+      {
+        "code": "B869",
+        "description_ptbr": "LITERATURA BRASILEIRA"
+      },
+      {
+        "code": "B869.1",
+        "description_ptbr": "POESIA BRASILEIRA"
+      },
+      {
+        "code": "B869.2",
+        "description_ptbr": "TEATRO BRASILEIRO"
+      },
+      {
+        "code": "B869.3",
+        "description_ptbr": "FICÇÃO E CONTOS BRASILEIROS"
+      },
+      {
+        "code": "B869.4",
+        "description_ptbr": "ENSAIOS BRASILEIROS"
+      },
+      {
+        "code": "B869.5",
+        "description_ptbr": "DISCURSOS BRASILEIROS"
+      },
+      {
+        "code": "B869.6",
+        "description_ptbr": "CARTAS BRASILEIRAS"
+      },
+      {
+        "code": "B869.7",
+        "description_ptbr": "HUMOR E SÁTIRAS BRASILEIRAS"
+      },
+      {
+        "code": "B869.8",
+        "description_ptbr": "MISCELÂNEA DE ESCRITOS BRASILEIROS"
+      }
+]
