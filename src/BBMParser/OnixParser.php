@@ -24,7 +24,7 @@ class OnixParser
 		return isset($this->onix) ? $this->onix : null;
 	}
 
-	public function __construct($xml, $dir = false)
+	public function __construct($xml, $dir = false, $version = null)
 	{
 		if($dir)
 			$xml = simplexml_load_file($xml);
@@ -33,7 +33,7 @@ class OnixParser
 
 		$this->onix = new Onix();
 
-		$this->onix->setVersion($xml['release']);
+		$this->onix->setVersion($version ? $version : $xml['release']);
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
 
