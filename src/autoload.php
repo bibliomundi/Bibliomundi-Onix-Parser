@@ -33,6 +33,7 @@
 
 $classes = [
     __DIR__ . '\BBMParser\Model\Price',
+    __DIR__ . '\BBMParser\Model\Title',
 	__DIR__ . '\BBMParser\Model\Contributor', 
 	__DIR__ . '\BBMParser\Model\Author', 
 	__DIR__ . '\BBMParser\Model\Ilustrator',

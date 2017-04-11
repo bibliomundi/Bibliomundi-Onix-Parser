@@ -3,6 +3,7 @@
 namespace BBMParser;
 
 use BBMParser\Model\Price as Price;
+use BBMParser\Model\Title as Title;
 use BBMParser\Model\Author as Author;
 use BBMParser\Model\Ilustrator as Ilustrator;
 use BBMParser\Model\Bisac as Bisac;
@@ -269,17 +270,30 @@ class OnixParser
 
 	private function getProductTitle($xmlProduct)
 	{
+		$title = new Title();
+
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
 				if(isset($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText))
-					$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText);
-				else
-					$title = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitlePrefix . ' ' . $xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleWithoutPrefix);
+					$title->setTitle(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText));
+
+				if(!isset($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->NoPrefix))
+					$title->setPrefix(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitlePrefix));
+
+				$title->setWithoutPrefix(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleWithoutPrefix));
+
 				break;
 			case '2.0':
 			case '2.1':
-				$title = strval($xmlProduct->Title->TitleText);
+				if(isset($xmlProduct->Title->TitleText))
+					$title->setTitle(strval($xmlProduct->Title->TitleText));
+
+				if(!isset($xmlProduct->Title->NoPrefix))
+					$title->setPrefix(strval($xmlProduct->Title->TitlePrefix));
+
+				$title->setWithoutPrefix(strval($xmlProduct->Title->TitleWithoutPrefix));
+
 				break;
 		}
 
