@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace BBMParser;
 
@@ -13,7 +13,7 @@ use BBMParser\Model\Onix as Onix;
 use BBMParser\Model\Product as Product;
 
 /**
- * Convert XML Onix(Essential) to object
+ * Convert XML Onix(Essential) to object 
  */
 
 class OnixParser
@@ -30,7 +30,7 @@ class OnixParser
 		if($dir)
 			$xml = simplexml_load_file($xml);
 		else
-			$xml = simplexml_load_string($xml);
+ 			$xml = simplexml_load_string($xml);
 
 		$this->onix = new Onix();
 
@@ -61,9 +61,9 @@ class OnixParser
 			$product->setProtectionType($this->getProductProtectionType($xmlProduct));
 
 			$product->setCollectionTitle($this->getProductCollectionTitle($xmlProduct));
-
+			
 			$product->setTitle($this->getProductTitle($xmlProduct));
-
+			
 			$product->setSubTitle($this->getProductSubTitle($xmlProduct));
 
 			$product->setContributors($this->getProductContributors($xmlProduct));
@@ -108,14 +108,14 @@ class OnixParser
 	{
 		$header = new Header();
 
-		switch ($this->onix->getVersion())
+		switch ($this->onix->getVersion()) 
 		{
 			case '3.0':
 				$header->setSender(strval($xmlHeader->Sender->SenderName));
 				$header->setContact(strval($xmlHeader->Sender->ContactName));
 				$header->setEmail(strval($xmlHeader->Sender->EmailAddress));
 				break;
-
+			
 			case '2.0':
 			case '2.1':
 				$header->setSender(strval($xmlHeader->FromCompany));
@@ -137,7 +137,7 @@ class OnixParser
 			case '3.0':
 				$availability = strval($xmlProduct->PublishingDetail->PublishingStatus) == '04' && strval($xmlProduct->ProductSupply->SupplyDetail->ProductAvailability == '20') ? true : false;
 				break;
-
+			
 			case '2.0':
 			case '2.1':
 				$availability = strval($xmlProduct->PublishingStatus) == '04' && strval($xmlProduct->SupplyDetail->ProductAvailability == '20') ? true : false;
@@ -248,7 +248,7 @@ class OnixParser
 				$protectionType = '';
 				break;
 		}
-
+		
 		return $protectionType;
 	}
 
@@ -261,7 +261,7 @@ class OnixParser
 			case '3.0':
 			if(!isset($xmlProduct->DescriptiveDetail->NoCollection) && isset($xmlProduct->DescriptiveDetail->Collection))
 				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
-
+				
 				break;
 			case '2.0':
 			case '2.1':
@@ -324,7 +324,7 @@ class OnixParser
 	{
 		$contributors = array();
 
-		//Podemos ter vários autores e ilustradores para o mesmo ebook. Lembrando que neste caso trabalharemos apenas com esses dois
+		//Podemos ter vários autores e ilustradores para o mesmo ebook. Lembrando que neste caso trabalharemos apenas com esses dois 		
 
 		switch ($this->onix->getVersion())
 		{
@@ -440,7 +440,7 @@ class OnixParser
 			case '3.0':
 				if(isset($xmlProduct->DescriptiveDetail->Extent))
 				{
-					foreach ($xmlProduct->DescriptiveDetail->Extent as $extent)
+					foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 					{
 						if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')
 							$pageNumbers = strval($extent->ExtentValue);
@@ -462,7 +462,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent)
+				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
 						$size = strval($extent->ExtentValue);
@@ -470,7 +470,7 @@ class OnixParser
 				break;
 			case '2.0':
 			case '2.1':
-				foreach ($xmlProduct->Extent as $extent)
+				foreach ($xmlProduct->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
 						$size = strval($extent->ExtentValue);
@@ -488,7 +488,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
-				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent)
+				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
 						$sizeUnit = strval($extent->ExtentUnit);
@@ -496,7 +496,7 @@ class OnixParser
 				break;
 			case '2.0':
 			case '2.1':
-				foreach ($xmlProduct->Extent as $extent)
+				foreach ($xmlProduct->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
 						$sizeUnit = strval($extent->ExtentUnit);
@@ -651,7 +651,7 @@ class OnixParser
 				{
 					switch (strval($subject->SubjectSchemeIdentifier))
 					{
-						case '20' :
+						case '20' : 
 							$tags = trim(strval($subject->SubjectCode));
 						break;
 					}
@@ -665,7 +665,7 @@ class OnixParser
 				{
 					switch (strval($subject->SubjectSchemeIdentifier))
 					{
-						case '20' :
+						case '20' : 
 							$tags = trim(strval($subject->SubjectCode));
 						break;
 					}
@@ -801,7 +801,7 @@ class OnixParser
 			case '3.0':
 				if(count($xmlProduct->ProductSupply->SupplyDetail->Price) > 1)//is array
 				{
-					foreach ($xmlProduct->ProductSupply->SupplyDetail->Price as $xmlPrice)
+					foreach ($xmlProduct->ProductSupply->SupplyDetail->Price as $xmlPrice) 
 					{
 						$price = new Price();
 
@@ -829,7 +829,7 @@ class OnixParser
 			case '2.1':
 				if(count($xmlProduct->SupplyDetail->Price) > 1)//is array
 				{
-					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice)
+					foreach ($xmlProduct->SupplyDetail->Price as $xmlPrice) 
 					{
 						$price = new Price();
 
