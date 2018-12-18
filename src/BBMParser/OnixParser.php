@@ -107,6 +107,7 @@ class OnixParser
 		switch ($this->onix->getVersion()) 
 		{
 			case '3.0':
+			case '3.0.5':
 				$header->setSender(strval($xmlHeader->Sender->SenderName));
 				$header->setContact(strval($xmlHeader->Sender->ContactName));
 				$header->setEmail(strval($xmlHeader->Sender->EmailAddress));
@@ -131,6 +132,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$availability = strval($xmlProduct->PublishingDetail->PublishingStatus) == '04' && strval($xmlProduct->ProductSupply->SupplyDetail->ProductAvailability == '20') ? true : false;
 				break;
 			
@@ -150,6 +152,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 			case '2.0':
 			case '2.1':
 				$operationType = strval($xmlProduct->NotificationType);
@@ -164,6 +167,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 			case '2.0':
 			case '2.1':
 				foreach ($xmlProduct->ProductIdentifier as $productIdentifier)
@@ -190,6 +194,13 @@ class OnixParser
 						$isbn = strval($productIdentifier->IDValue);
 				}
 				break;
+			case '3.0.5':
+				foreach ($xmlProduct->ProductIdentifier as $productIdentifier)
+				{
+					if(strval($productIdentifier->ProductIDType == '03'))
+						$isbn = strval($productIdentifier->IDValue);
+				}
+				break;
 		}
 
 		return $isbn;
@@ -200,6 +211,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$imprintName = strval($xmlProduct->PublishingDetail->Imprint->ImprintName);
 			break;
 			case '2.0':
@@ -219,6 +231,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$formatType = strval($xmlProduct->DescriptiveDetail->ProductFormDetail);
 				break;
 			case '2.0':
@@ -237,6 +250,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$protectionType = strval($xmlProduct->DescriptiveDetail->EpubTechnicalProtection);
 				break;
 			case '2.0':
@@ -255,6 +269,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 			if(!isset($xmlProduct->DescriptiveDetail->NoCollection) && isset($xmlProduct->DescriptiveDetail->Collection))
 				$collectionTitle = strval($xmlProduct->DescriptiveDetail->Collection->TitleDetail->TitleElement->TitleText);
 				
@@ -275,6 +290,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText))
 					$title->setTitle(strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->TitleText));
 
@@ -305,6 +321,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$subtitle = strval($xmlProduct->DescriptiveDetail->TitleDetail->TitleElement->Subtitle);
 				break;
 			case '2.0':
@@ -325,6 +342,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				foreach ($xmlProduct->DescriptiveDetail->Contributor as $xmlContributor)
 				{
 					$contributor = null;
@@ -396,6 +414,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$editionNumber = strval($xmlProduct->DescriptiveDetail->EditionNumber);
 				break;
 			case '2.0':
@@ -414,6 +433,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if (strval($xmlProduct->DescriptiveDetail->Language->LanguageRole == '01'))
 					$idiom = strval($xmlProduct->DescriptiveDetail->Language->LanguageCode);
 				break;
@@ -434,11 +454,12 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->DescriptiveDetail->Extent))
 				{
 					foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 					{
-						if (strval($extent->ExtentType) == '00' && strval($extent->ExtentUnit) == '03')
+						if (strval($extent->ExtentType) == '10' && strval($extent->ExtentUnit) == '03')
 							$pageNumbers = strval($extent->ExtentValue);
 					}
 				}
@@ -458,6 +479,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
@@ -484,6 +506,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				foreach ($xmlProduct->DescriptiveDetail->Extent as $extent) 
 				{
 					if(strval($extent->ExtentType) == '22')
@@ -508,6 +531,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$categories = array();
 
 				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
@@ -641,6 +665,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$tags = '';
 
 				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
@@ -649,6 +674,19 @@ class OnixParser
 					{
 						case '20' : 
 							$tags = trim(strval($subject->SubjectCode));
+						break;
+					}
+				}
+				break;
+			case '3.0.5':
+				$tags = '';
+
+				foreach ($xmlProduct->DescriptiveDetail->Subject as $subject)
+				{
+					switch (strval($subject->SubjectSchemeIdentifier))
+					{
+						case '20' : 
+							$tags = trim(strval($subject->SubjectHeadingText));
 						break;
 					}
 				}
@@ -679,6 +717,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$ageRatingPrecision = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangePrecision);
 				break;
 			case '2.0':
@@ -697,6 +736,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				$ageRatingValue = strval($xmlProduct->DescriptiveDetail->AudienceRange->AudienceRangeValue);
 				break;
 			case '2.0':
@@ -715,6 +755,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->CollateralDetail->TextContent))
 				{
 					foreach($xmlProduct->CollateralDetail->TextContent as $textContent)
@@ -744,6 +785,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->CollateralDetail->SupportingResource))
 				{
 					if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
@@ -770,6 +812,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->CollateralDetail->SupportingResource))
 				{
 					if (strval($xmlProduct->CollateralDetail->SupportingResource->ResourceContentType) == '01' &&
@@ -795,6 +838,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(count($xmlProduct->ProductSupply->SupplyDetail->Price) > 1)//is array
 				{
 					foreach ($xmlProduct->ProductSupply->SupplyDetail->Price as $xmlPrice) 
@@ -861,6 +905,7 @@ class OnixParser
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
+			case '3.0.5':
 				if(isset($xmlProduct->PublishingDetail->SalesRights->Territory->RegionsIncluded))
 					$includedTerritoriality = strval($xmlProduct->PublishingDetail->SalesRights->Territory->RegionsIncluded);
 				else
