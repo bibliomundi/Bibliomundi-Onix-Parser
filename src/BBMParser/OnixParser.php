@@ -126,6 +126,7 @@ class OnixParser
 
 	private function getProductAvailability($xmlProduct)
 	{
+        $availability = null;
 		//Existem algumas situações que podem fazer com que o livro não esteja disponível para venda.
 		//Neste caso aqui estamos verificando se o produto está ativo e seu status junto ao fornecedor
 
@@ -147,6 +148,7 @@ class OnixParser
 
 	private function getProductOperationType($xmlProduct)
 	{
+        $operationType = null;
 		//Para saber se é inserção(03), deleção(05) ou alteração(04).
 
 		switch ($this->onix->getVersion())
@@ -164,6 +166,7 @@ class OnixParser
 
 	private function getProductId($xmlProduct)
 	{
+        $id = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -183,6 +186,7 @@ class OnixParser
 
 	private function getProductISBN($xmlProduct)
 	{
+        $isbn = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -201,6 +205,7 @@ class OnixParser
 
 	private function getProductImprintName($xmlProduct)
 	{
+        $imprintName = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -219,6 +224,7 @@ class OnixParser
 
 	private function getProductFormatType($xmlProduct)
 	{
+        $formatType = null;
 		//epub, pdf etc
 
 		switch ($this->onix->getVersion())
@@ -238,6 +244,7 @@ class OnixParser
 
 	private function getProductProtectionType($xmlProduct)
 	{
+        $protectionType = null;
 		//adobe, marca d'agua etc
 
 		switch ($this->onix->getVersion())
@@ -311,6 +318,7 @@ class OnixParser
 
 	private function getProductSubTitle($xmlProduct)
 	{
+        $subtitle = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -404,6 +412,7 @@ class OnixParser
 
 	private function getProductEditionNumber($xmlProduct)
 	{
+        $editionNumber = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -421,6 +430,7 @@ class OnixParser
 
 	private function getProductIdiom($xmlProduct)
 	{
+        $idiom = null;
 		//Idioma do texto do produto. Por hora somente isso nos importa
 
 		switch ($this->onix->getVersion())
@@ -521,6 +531,7 @@ class OnixParser
 
 	private function getProductCategories($xmlProduct)
 	{
+        $categories = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -655,6 +666,7 @@ class OnixParser
 
 	private function getProductTags($xmlProduct)
 	{
+        $tags = null;
 		switch ($this->onix->getVersion())
 		{
 			case '3.0':
@@ -710,7 +722,7 @@ class OnixParser
 
 	private function getProductAgeRatingValue($xmlProduct)
 	{
-		$ageRationValue = '';
+        $ageRatingValue = '';
 
 		switch ($this->onix->getVersion())
 		{
