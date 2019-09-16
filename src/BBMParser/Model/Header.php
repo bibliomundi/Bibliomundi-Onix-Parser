@@ -7,6 +7,7 @@ class Header
     private $sender;
     private $contact;
     private $email;
+    private $message;
 
     public function getSender()
     {
@@ -36,5 +37,13 @@ class Header
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    public function getMessage(){
+        return $this->message;
+    }
+    public function setMessage($message)
+    {
+        $this->message = $message;
     }
 }

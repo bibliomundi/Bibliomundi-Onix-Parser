@@ -43,7 +43,10 @@ $classes = [
 	__DIR__ . '\BBMParser\Model\Header', 
 	__DIR__ . '\BBMParser\Model\Onix',
 	__DIR__ . '\BBMParser\Model\Product',
-	__DIR__ . '\BBMParser\OnixParser'
+	__DIR__ . '\BBMParser\Provider\ObjectParser',
+	__DIR__ . '\BBMParser\Provider\OnixParser',
+	__DIR__ . '\BBMParser\Provider\JsonParser',
+	__DIR__ . '\BBMParser\Parser',
 ];
 
 /**
