@@ -1,15 +1,15 @@
 {
-    "name": "magrao/bibliomundi-onix-parser",
+    "name": "bibliomundi/onix-parser",
     "type": "library",
     "description": "Parser for Onix >=2.0",
-    "keywords": ["onix","parser"],
+    "keywords": ["bibliomundi","onix","parser"],
     "homepage": "https://github.com/bibliomundi/Bibliomundi-Onix-Parser",
     "license": "MIT",
     "authors": [
         {
-            "name": "Carlos Magno",
-            "email": "carlos.magno@bibliomundi.com",
-            "homepage": "",
+            "name": "Bibliomundi Developers",
+            "email": "dev@bibliomundi.com.br",
+            "homepage": "https://bibliomundi.com.br",
             "role": "Developer"
         }
     ],
