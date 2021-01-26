@@ -29,6 +29,7 @@ class Product
     private $prices = array();
     private $includedTerritoriality;
     private $imprintName;
+    private $xml;
 
     /**
      * @param [type]
@@ -606,5 +607,19 @@ class Product
     public function setImprintName($imprintName)
     {
         $this->imprintName = $imprintName;
+    }
+
+    public function getXml()
+    {
+        if (!empty($this->xml)) {
+            return $this->xml->asXML();
+        }
+
+        return null;
+    }
+
+    public function setXml($xml)
+    {
+        $this->xml = $xml;
     }
 }

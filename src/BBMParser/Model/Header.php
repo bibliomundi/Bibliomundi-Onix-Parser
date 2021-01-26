@@ -7,6 +7,7 @@ class Header
     private $sender;
     private $contact;
     private $email;
+    public $xml;
 
     public function getSender()
     {
@@ -36,5 +37,19 @@ class Header
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+    
+    public function getXml()
+    {
+        if (!empty($this->xml)) {
+            return $this->xml->asXML();
+        }
+
+        return null;
+    }
+
+    public function setXml($xml)
+    {
+        $this->xml = $xml;
     }
 }

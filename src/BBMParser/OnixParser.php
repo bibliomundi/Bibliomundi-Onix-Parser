@@ -27,10 +27,10 @@ class OnixParser
 
 	public function __construct($xml, $dir = false, $version = null)
 	{
-		if($dir)
+		if ($dir)
 			$xml = simplexml_load_file($xml);
 		else
- 			$xml = simplexml_load_string($xml);
+			$xml = simplexml_load_string($xml);
 
 		$this->onix = new Onix();
 
@@ -45,6 +45,8 @@ class OnixParser
 		foreach ($xml->Product as $xmlProduct)
 		{
 			$product = new Product();
+
+			$product->setXml($xmlProduct);
 
 			$product->setAvailability($this->getProductAvailability($xmlProduct));
 
@@ -103,6 +105,7 @@ class OnixParser
 	private function getHeader($xmlHeader)
 	{
 		$header = new Header();
+		$header->setXml($xmlHeader);
 
 		switch ($this->onix->getVersion()) 
 		{
