@@ -98,6 +98,10 @@ class OnixParser
 
 			$product->setPrices($this->getProductPrices($xmlProduct));
 
+			$product->setCopyright($this->getProductCopyright($xmlProduct));
+
+			$product->setPubDate($this->getProductPubDate($xmlProduct));
+
 			$this->onix->setProduct($product);
 		}
 	}
@@ -878,6 +882,35 @@ class OnixParser
 		}
 
 		return $prices;
+	}
+
+	private function getProductCopyright($xmlProduct) {
+		switch ($this->onix->getVersion()) {
+		case '3.0':
+		case '2.0':
+		case '2.1':
+			$copyright = strval($xmlProduct->PublishingDetail->CopyrightStatement->CopyrightYear);
+			break;
+		}
+
+		return $copyright;
+	}
+
+	private function getProductPubDate($xmlProduct) {
+		switch ($this->onix->getVersion()) {
+		case '3.0':
+		case '2.0':
+		case '2.1':
+			foreach ($xmlProduct->PublishingDetail->PublishingDate as $pubDate) {
+				if (strval($pubDate->PublishingDateRole == '01')) {
+					$pubdate = strval($pubDate->Date);
+				}
+
+			}
+			break;
+		}
+
+		return $pubdate;
 	}
 
 	private function getProductIncludedTerritoriality($xmlProduct)

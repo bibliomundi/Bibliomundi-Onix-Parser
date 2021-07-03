@@ -24,6 +24,8 @@ class Product
     private $ageRatingPrecision;
     private $ageRatingValue;
     private $synopsis;
+    private $copyright;
+    private $pubdate;
     private $formatFile;
     private $urlFile;
     private $prices = array();
@@ -497,6 +499,50 @@ class Product
     public function setSynopsis($synopsis)
     {
         $this->synopsis = $synopsis;
+    }
+
+    /**
+     * Gets the value of copyright.
+     *
+     * @return mixed
+     */
+    public function getCopyright()
+    {
+        return $this->copyright;
+    }
+
+    /**
+     * Sets the value of copyright.
+     *
+     * @param mixed $copyright the product copyright
+     *
+     * @return self
+     */
+    public function setCopyright($copyright)
+    {
+        $this->copyright = $copyright;
+    }
+
+    /**
+     * Gets the value of pubdate.
+     *
+     * @return mixed
+     */
+    public function getPubDate()
+    {
+        return $this->pubdate;
+    }
+
+    /**
+     * Sets the value of pubdate.
+     *
+     * @param mixed $pubdate the product pubdate
+     *
+     * @return self
+     */
+    public function setPubDate($pubdate)
+    {
+        $this->pubdate = $pubdate;
     }
 
     /**
