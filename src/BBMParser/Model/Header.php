@@ -7,6 +7,7 @@ class Header
     private $sender;
     private $contact;
     private $email;
+    private $sentDateTime;
     public $xml;
 
     public function getSender()
@@ -39,6 +40,17 @@ class Header
         $this->email = $email;
     }
     
+
+    public function getSentDateTime()
+    {
+        return $this->sentDateTime;
+    }
+
+    public function setSentDateTime($sentDateTime)
+    {
+        $this->sentDateTime = $sentDateTime;
+    }
+
     public function getXml()
     {
         if (!empty($this->xml)) {

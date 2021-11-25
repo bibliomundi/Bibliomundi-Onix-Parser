@@ -27,16 +27,18 @@ class OnixParser
 
 	public function __construct($xml, $dir = false, $version = null)
 	{
-		if ($dir)
+		if ($dir){
 			$xml = simplexml_load_file($xml);
-		else
+		} else {
 			$xml = simplexml_load_string($xml);
+		}
 
 		$this->onix = new Onix();
 
 		$this->onix->setVersion($version ? $version : $xml['release']);
 
 		$this->onix->setHeader($this->getHeader($xml->Header));
+
 
 		//Needed!! becouse onix dont has tag for category names
 		Bisac::loadFile();
@@ -114,6 +116,7 @@ class OnixParser
 				$header->setSender(strval($xmlHeader->Sender->SenderName));
 				$header->setContact(strval($xmlHeader->Sender->ContactName));
 				$header->setEmail(strval($xmlHeader->Sender->EmailAddress));
+				$header->setSentDateTime(strval($xmlHeader->SentDateTime));
 				break;
 			
 			case '2.0':
@@ -121,6 +124,7 @@ class OnixParser
 				$header->setSender(strval($xmlHeader->FromCompany));
 				$header->setContact(strval($xmlHeader->FromPerson));
 				$header->setEmail(strval($xmlHeader->FromEmail));
+				$header->setSentDateTime(strval($xmlHeader->SentDateTime));
 				break;
 		}
 
